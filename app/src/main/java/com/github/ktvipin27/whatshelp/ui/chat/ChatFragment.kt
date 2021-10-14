@@ -1,4 +1,4 @@
-package com.github.ktvipin27.whatshelp.ui.home
+package com.github.ktvipin27.whatshelp.ui.chat
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.github.ktvipin27.whatshelp.databinding.FragmentHomeBinding
+import com.github.ktvipin27.whatshelp.databinding.FragmentChatBinding
 import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
 
 
-class HomeFragment : Fragment() {
+class ChatFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
+    private lateinit var chatViewModel: ChatViewModel
+    private var _binding: FragmentChatBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -27,10 +27,10 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        chatViewModel =
+            ViewModelProvider(this).get(ChatViewModel::class.java)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentChatBinding.inflate(inflater, container, false)
 
         binding.btnSend.setOnClickListener {
             onClickWhatsApp(
