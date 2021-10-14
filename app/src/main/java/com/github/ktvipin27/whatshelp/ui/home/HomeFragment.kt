@@ -10,6 +10,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.github.ktvipin27.whatshelp.R
 import com.github.ktvipin27.whatshelp.databinding.FragmentHomeBinding
+import android.widget.Toast
+
+import android.content.Intent
+
+import android.content.pm.PackageManager
+
+import android.content.pm.PackageInfo
+import android.net.Uri
+
 
 class HomeFragment : Fragment() {
 
@@ -24,22 +33,39 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+        binding.btnSend.setOnClickListener { onClickWhatsApp(binding.etNumber.text.toString()) }
+        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun onClickWhatsApp(mobile:String) {
+        val isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp")
+
+        if (isWhatsappInstalled) {
+            val uri = Uri.parse("https://api.whatsapp.com/send?phone=$mobile&text=Hi")
+            val sendIntent = Intent(Intent.ACTION_VIEW, uri);
+            sendIntent.setPackage("com.whatsapp");
+            startActivity(sendIntent);
+        } else {
+            Toast.makeText(context, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    private fun whatsappInstalledOrNot(uri: String): Boolean = try {
+        requireActivity().packageManager.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
+        true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
     }
 }
