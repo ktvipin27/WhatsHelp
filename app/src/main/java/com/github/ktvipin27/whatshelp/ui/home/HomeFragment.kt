@@ -4,20 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.github.ktvipin27.whatshelp.R
-import com.github.ktvipin27.whatshelp.databinding.FragmentHomeBinding
 import android.widget.Toast
-
-import android.content.Intent
-
-import android.content.pm.PackageManager
-
-import android.content.pm.PackageInfo
-import android.net.Uri
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.github.ktvipin27.whatshelp.databinding.FragmentHomeBinding
+import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
 
 
 class HomeFragment : Fragment() {
@@ -29,6 +20,8 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private lateinit var whatsAppHelper: WhatsAppHelper
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,7 +32,14 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        binding.btnSend.setOnClickListener { onClickWhatsApp(binding.etNumber.text.toString()) }
+        binding.btnSend.setOnClickListener {
+            onClickWhatsApp(
+                binding.etNumber.text.toString(),
+                binding.etMessage.text.toString()
+            )
+        }
+
+        whatsAppHelper = WhatsAppHelper(requireContext().applicationContext)
         return binding.root
     }
 
@@ -48,24 +48,14 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun onClickWhatsApp(mobile:String) {
-        val isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp")
+    private fun onClickWhatsApp(mobile: String, message: String) {
+        val isWhatsappInstalled = whatsAppHelper.isWhatsAppInstalled()
 
         if (isWhatsappInstalled) {
-            val uri = Uri.parse("https://api.whatsapp.com/send?phone=$mobile&text=Hi")
-            val sendIntent = Intent(Intent.ACTION_VIEW, uri);
-            sendIntent.setPackage("com.whatsapp");
-            startActivity(sendIntent);
+            whatsAppHelper.sendMessage(mobile, message)
         } else {
             Toast.makeText(context, "WhatsApp not Installed", Toast.LENGTH_SHORT)
                 .show()
         }
-    }
-
-    private fun whatsappInstalledOrNot(uri: String): Boolean = try {
-        requireActivity().packageManager.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
-        true
-    } catch (e: PackageManager.NameNotFoundException) {
-        false
     }
 }
