@@ -1,54 +1,65 @@
 package com.github.ktvipin27.whatshelp.ui.chat
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import com.github.ktvipin27.whatshelp.R
 import com.github.ktvipin27.whatshelp.databinding.FragmentChatBinding
 import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class ChatFragment : Fragment() {
 
-    private lateinit var chatViewModel: ChatViewModel
-    private var _binding: FragmentChatBinding? = null
+    private val chatViewModel: ChatViewModel by viewModels()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentChatBinding
 
-    private lateinit var whatsAppHelper: WhatsAppHelper
+    @Inject
+    lateinit var whatsAppHelper: WhatsAppHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        chatViewModel =
-            ViewModelProvider(this).get(ChatViewModel::class.java)
 
-        _binding = FragmentChatBinding.inflate(inflater, container, false)
-
-        binding.btnSend.setOnClickListener {
-            onClickWhatsApp(
-                binding.etNumber.text.toString(),
-                binding.etMessage.text.toString()
-            )
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false)
+        binding.apply {
+            viewModel = chatViewModel
+            lifecycleOwner = viewLifecycleOwner
         }
 
-        whatsAppHelper = WhatsAppHelper(requireContext().applicationContext)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        chatViewModel.state.observe(viewLifecycleOwner, { state ->
+            when (state) {
+                is ChatState.OpenWhatsApp -> {
+                    hideKeyboard()
+                    openWhatsApp(state.number, state.message)
+                }
+            }
+        })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding.unbind()
     }
 
-    private fun onClickWhatsApp(mobile: String, message: String) {
+    private fun openWhatsApp(mobile: String, message: String) {
         val isWhatsappInstalled = whatsAppHelper.isWhatsAppInstalled()
 
         if (isWhatsappInstalled) {
@@ -56,6 +67,13 @@ class ChatFragment : Fragment() {
         } else {
             Toast.makeText(context, "WhatsApp not Installed", Toast.LENGTH_SHORT)
                 .show()
+        }
+    }
+
+    private fun hideKeyboard(){
+        binding.btnSend.let { view ->
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 }

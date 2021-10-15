@@ -5,13 +5,17 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.pm.PackageManager
 import android.net.Uri
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ActivityScoped
+import javax.inject.Inject
 
 /**
  * Created by Vipin KT on 14/10/21
  */
-class WhatsAppHelper(private val context: Context) {
+@ActivityScoped
+class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Context) {
 
-    fun sendMessage(mobile:String,message:String){
+    fun sendMessage(mobile: String, message: String) {
         val uri = Uri.parse("https://api.whatsapp.com/send?phone=$mobile&text=$message")
         val sendIntent = Intent(Intent.ACTION_VIEW, uri).apply {
             setPackage("com.whatsapp")
