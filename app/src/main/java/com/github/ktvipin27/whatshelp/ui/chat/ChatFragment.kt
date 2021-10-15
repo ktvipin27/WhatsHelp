@@ -10,8 +10,11 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.github.ktvipin27.whatshelp.R
+import com.github.ktvipin27.whatshelp.data.db.entity.History
 import com.github.ktvipin27.whatshelp.databinding.FragmentChatBinding
+import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
 import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -37,6 +40,9 @@ class ChatFragment : Fragment() {
             viewModel = chatViewModel
             lifecycleOwner = viewLifecycleOwner
         }
+        binding.tilNumber.setEndIconOnClickListener {
+            findNavController().navigate(R.id.action_navigation_chat_to_navigation_history)
+        }
 
         return binding.root
     }
@@ -52,6 +58,15 @@ class ChatFragment : Fragment() {
                 }
             }
         })
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.let { handle ->
+            handle.getLiveData<History>(EXTRA_HISTORY).observe(
+                viewLifecycleOwner
+            ) { history ->
+                handle.remove<History>(EXTRA_HISTORY)
+                chatViewModel.onReceiveHistory(history)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -70,9 +85,10 @@ class ChatFragment : Fragment() {
         }
     }
 
-    private fun hideKeyboard(){
+    private fun hideKeyboard() {
         binding.btnSend.let { view ->
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            val imm =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }

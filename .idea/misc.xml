@@ -3,12 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.35555555555555557" />
+        <entry key="../../.gradle/caches/transforms-3/569dd7f9ac71fd91f49b3f71c239a163/transformed/core-1.7.0-rc01/res/menu/example_menu.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.35555555555555557" />
         <entry key="app/src/main/res/drawable/ic_baseline_message_24.xml" value="0.35555555555555557" />
         <entry key="app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.3101851851851852" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/fragment_history.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/layout/item_history.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.37604166666666666" />
       </map>
     </option>
