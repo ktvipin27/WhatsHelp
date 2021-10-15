@@ -3,6 +3,7 @@ package com.github.ktvipin27.whatshelp.ui.history
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,7 +30,6 @@ class HistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history, container, false)
 
         binding.apply {
