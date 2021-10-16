@@ -7,7 +7,7 @@ import com.github.ktvipin27.whatshelp.data.db.entity.History
  */
 interface WhatsHelpRepo {
 
-    suspend fun saveHistory(number: String)
+    suspend fun saveHistory(countryCode:String,number: String)
 
     suspend fun getHistory(): List<History>
 }

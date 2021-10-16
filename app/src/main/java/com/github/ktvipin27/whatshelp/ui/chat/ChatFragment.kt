@@ -2,7 +2,6 @@ package com.github.ktvipin27.whatshelp.ui.chat
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
 import com.github.ktvipin27.whatshelp.util.NumberUtil
 import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -60,7 +58,7 @@ class ChatFragment : Fragment() {
         binding.etNumber.setOnPasteListener { text ->
             lifecycleScope.launch {
                 numberUtil.isValidFullNumber(text).collect {
-                    when(it){
+                    when (it) {
                         NumberUtil.NumberValidity.Invalid -> binding.etNumber.setText(text)
                         is NumberUtil.NumberValidity.Valid -> {
                             binding.ccp.setCountryForPhoneCode(it.code)
@@ -68,6 +66,12 @@ class ChatFragment : Fragment() {
                         }
                     }
                 }
+            }
+        }
+
+        binding.btnSend.setOnClickListener {
+            with(binding.ccp) {
+                chatViewModel.onClickSend(selectedCountryCode, fullNumber, formattedFullNumber)
             }
         }
 
@@ -91,7 +95,8 @@ class ChatFragment : Fragment() {
                 viewLifecycleOwner
             ) { history ->
                 handle.remove<History>(EXTRA_HISTORY)
-                chatViewModel.onReceiveHistory(history)
+                binding.ccp.setCountryForPhoneCode(history.code.toInt())
+                binding.etNumber.setText(history.number)
             }
         }
     }

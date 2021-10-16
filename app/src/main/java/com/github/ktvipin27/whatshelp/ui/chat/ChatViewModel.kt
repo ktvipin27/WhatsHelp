@@ -15,25 +15,20 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
 
     val state = SingleLiveEvent<ChatState>()
 
-    val mobileNumber = MutableLiveData("")
     val message = MutableLiveData("")
 
-    fun onClickSend() {
-        val number = mobileNumber.value.toString()
+    fun onClickSend(countryCode:String,fullNumber: String,formattedFullNumber: String) {
         val msg = message.value.toString()
 
-        if (number.isNotEmpty())
-            viewModelScope.launch {
-                whatsHelpRepo.saveHistory(number)
-            }
+        if (fullNumber.isNotEmpty()) saveHistory(formattedFullNumber,countryCode)
 
         state.value =
-            ChatState.OpenWhatsApp(number, msg)
+            ChatState.OpenWhatsApp(fullNumber, msg)
     }
 
-    fun onReceiveHistory(history: History?) {
-        history?.let {
-            mobileNumber.value = it.number
+    private fun saveHistory(formattedFullNumber: String, countryCode: String) {
+        viewModelScope.launch {
+            whatsHelpRepo.saveHistory(countryCode, formattedFullNumber)
         }
     }
 

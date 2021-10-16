@@ -11,8 +11,12 @@ import javax.inject.Inject
 @ViewModelScoped
 class WhatsHelpRepoImpl @Inject constructor(private val historyDao: HistoryDao) : WhatsHelpRepo {
 
-    override suspend fun saveHistory(number: String) {
-        val history = History(number = number)
+    override suspend fun saveHistory(countryCode: String, number: String) {
+        //remove "+ "  and code
+        val numberWithoutCode = number.substring(countryCode.length+2)
+        val history = History(code = countryCode,number = numberWithoutCode,
+            formattedFullNumber = number
+        )
         historyDao.insert(history)
     }
 
