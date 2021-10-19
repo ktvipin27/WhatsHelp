@@ -1,11 +1,9 @@
 package com.github.ktvipin27.whatshelp.ui.chat
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -15,11 +13,12 @@ import androidx.navigation.fragment.findNavController
 import com.github.ktvipin27.whatshelp.R
 import com.github.ktvipin27.whatshelp.data.db.entity.History
 import com.github.ktvipin27.whatshelp.databinding.FragmentChatBinding
+import com.github.ktvipin27.whatshelp.util.ClipboardUtil
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
 import com.github.ktvipin27.whatshelp.util.NumberUtil
 import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
+import com.github.ktvipin27.whatshelp.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,10 +36,13 @@ class ChatFragment : Fragment() {
     @Inject
     lateinit var numberUtil: NumberUtil
 
+    @Inject
+    lateinit var clipboardUtil: ClipboardUtil
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false)
@@ -55,19 +57,7 @@ class ChatFragment : Fragment() {
 
         binding.ccp.registerCarrierNumberEditText(binding.etNumber)
 
-        binding.etNumber.setOnPasteListener { text ->
-            lifecycleScope.launch {
-                numberUtil.isValidFullNumber(text).collect {
-                    when (it) {
-                        NumberUtil.NumberValidity.Invalid -> binding.etNumber.setText(text)
-                        is NumberUtil.NumberValidity.Valid -> {
-                            binding.ccp.setCountryForPhoneCode(it.code)
-                            binding.etNumber.setText(it.number)
-                        }
-                    }
-                }
-            }
-        }
+        binding.etNumber.setOnPasteListener { text -> setTextFromClipboard(text) }
 
         binding.btnSend.setOnClickListener {
             with(binding.ccp) {
@@ -84,7 +74,7 @@ class ChatFragment : Fragment() {
         chatViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is ChatState.OpenWhatsApp -> {
-                    hideKeyboard()
+                    binding.root.hideKeyboard()
                     openWhatsApp(state.number, state.message)
                 }
             }
@@ -97,6 +87,21 @@ class ChatFragment : Fragment() {
                 handle.remove<History>(EXTRA_HISTORY)
                 binding.ccp.setCountryForPhoneCode(history.code.toInt())
                 binding.etNumber.setText(history.number)
+            }
+        }
+    }
+
+    private fun setTextFromClipboard(text: String) {
+        lifecycleScope.launch {
+            when (val numberValidity = numberUtil.isValidFullNumber(text)) {
+                is NumberUtil.NumberValidity.ValidNumber -> {
+                    binding.ccp.setCountryForPhoneCode(numberValidity.code)
+                    binding.etNumber.setText(numberValidity.number)
+                }
+                is NumberUtil.NumberValidity.InvalidCountryCode -> binding.etNumber.setText(
+                    numberValidity.number)
+                NumberUtil.NumberValidity.InvalidNumber -> {
+                }
             }
         }
     }
@@ -115,14 +120,6 @@ class ChatFragment : Fragment() {
         } else {
             Toast.makeText(context, "WhatsApp not Installed", Toast.LENGTH_SHORT)
                 .show()
-        }
-    }
-
-    private fun hideKeyboard() {
-        binding.btnSend.let { view ->
-            val imm =
-                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 }

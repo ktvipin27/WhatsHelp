@@ -13,8 +13,9 @@ class WhatsHelpRepoImpl @Inject constructor(private val historyDao: HistoryDao) 
 
     override suspend fun saveHistory(countryCode: String, number: String) {
         //remove "+ "  and code
-        val numberWithoutCode = number.substring(countryCode.length+2)
-        val history = History(code = countryCode,number = numberWithoutCode,
+        val numberWithoutCode = number.substring(countryCode.length + 2)
+        val history = History(
+            code = countryCode, number = numberWithoutCode,
             formattedFullNumber = number
         )
         historyDao.insert(history)

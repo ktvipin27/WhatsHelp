@@ -14,25 +14,28 @@ import javax.inject.Singleton
  * Created by Vipin KT on 16/10/21
  */
 @Singleton
-class NumberUtil @Inject constructor(@ApplicationContext val context: Context)  {
+class NumberUtil @Inject constructor(@ApplicationContext val context: Context) {
 
-    sealed class NumberValidity{
-        object Invalid:NumberValidity()
-        data class Valid(val code:Int, val number: String):NumberValidity()
+    sealed class NumberValidity {
+        data class ValidNumber(val code: Int, val number: String) : NumberValidity()
+        data class InvalidCountryCode(val number: String) : NumberValidity()
+        object InvalidNumber : NumberValidity()
     }
 
     private val phoneUtil: PhoneNumberUtil = PhoneNumberUtil.createInstance(context)
 
-    fun isValidFullNumber(number:String): Flow<NumberValidity> {
-        return flow {
-            try {
-                val numberProto = phoneUtil.parse(number, "")
-                //Log.d("isValidFullNumber","Country code: " + numberProto.countryCode)
-                emit(NumberValidity.Valid(numberProto.countryCode,numberProto.nationalNumber.toString()))
-            } catch (e: NumberParseException) {
-                Log.d("isValidFullNumber","NumberParseException was thrown: $e")
-                emit(NumberValidity.Invalid)
-            }
+    suspend fun isValidFullNumber(number: String): NumberValidity {
+        return try {
+            val numberProto = phoneUtil.parse(number, "")
+            Log.d("isValidFullNumber","Country code: " + numberProto.countryCode)
+            NumberValidity.ValidNumber(numberProto.countryCode,
+                numberProto.nationalNumber.toString())
+        } catch (e: NumberParseException) {
+            Log.d("isValidFullNumber", "NumberParseException was thrown: $e")
+            if (e.errorType == NumberParseException.ErrorType.INVALID_COUNTRY_CODE)
+                NumberValidity.InvalidCountryCode(number)
+            else
+                NumberValidity.InvalidNumber
         }
     }
 }

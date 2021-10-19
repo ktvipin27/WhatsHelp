@@ -1,13 +1,15 @@
 package com.github.ktvipin27.whatshelp.util
 
-import android.content.ClipboardManager
 import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Created by Vipin KT on 16/10/21
  */
+@AndroidEntryPoint
 class WhatsTextInputEditText @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -16,16 +18,11 @@ class WhatsTextInputEditText @JvmOverloads constructor(
 
     private var onPasteListener: ((String) -> Unit)? = null
 
-    private val clipboard: ClipboardManager? =
-        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-
+    @Inject lateinit var clipboardUtil: ClipboardUtil
 
     override fun onTextContextMenuItem(id: Int): Boolean {
         if (id == android.R.id.paste) {
-            var text = ""
-            clipboard?.primaryClip?.getItemAt(0)?.text?.let {
-                text = it.toString()
-            }
+            val text = clipboardUtil.getCopiedText()
             onPasteListener?.invoke(text)
             return true
         }
