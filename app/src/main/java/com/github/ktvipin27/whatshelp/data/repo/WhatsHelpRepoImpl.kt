@@ -13,15 +13,12 @@ import javax.inject.Inject
 class WhatsHelpRepoImpl @Inject constructor(private val historyDao: HistoryDao) : WhatsHelpRepo {
 
     override suspend fun saveHistory(whatsAppNumber: WhatsAppNumber, formattedNumber: String) {
-        val existing = historyDao.get(whatsAppNumber.code, whatsAppNumber.number)
-        if (existing == null) {
-            val history = History(
-                whatsAppNumber = whatsAppNumber,
-                formattedNumber = formattedNumber
-            )
-            historyDao.insert(history)
-        } else
-            historyDao.update(existing.apply { timeStamp = System.currentTimeMillis() })
+        historyDao.delete(whatsAppNumber.code, whatsAppNumber.number)
+        val history = History(
+            whatsAppNumber = whatsAppNumber,
+            formattedNumber = formattedNumber
+        )
+        historyDao.insert(history)
     }
 
     override suspend fun getHistory(): List<History> {
