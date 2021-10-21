@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.pm.PackageManager
 import android.net.Uri
+import com.github.ktvipin27.whatshelp.util.Constants.PACKAGE_WHATSAPP
+import com.github.ktvipin27.whatshelp.util.Constants.PACKAGE_WHATSAPP_BUSINESS
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
@@ -28,7 +30,7 @@ class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Contex
     }
 
     private fun getChatLink(message: String, mobile: String): String =
-        "https://api.whatsapp.com/send??phone=$mobile&text=$message"
+        "https://api.whatsapp.com/send?phone=$mobile&text=$message"
 
     fun isWhatsAppInstalled() = appInstalledOrNot(PACKAGE_WHATSAPP)
 
@@ -39,10 +41,5 @@ class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Contex
         true
     } catch (e: PackageManager.NameNotFoundException) {
         false
-    }
-
-    companion object{
-        const val PACKAGE_WHATSAPP = "com.whatsapp"
-        const val PACKAGE_WHATSAPP_BUSINESS = "com.whatsapp.w4b"
     }
 }

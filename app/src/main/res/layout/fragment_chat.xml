@@ -10,75 +10,86 @@
             type="com.github.ktvipin27.whatshelp.ui.chat.ChatViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp"
-        tools:context=".ui.chat.ChatFragment">
+        android:fillViewport="true">
 
-        <com.hbb20.CountryCodePicker
-            android:id="@+id/ccp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:ccp_autoFormatNumber="true"
-            android:layout_marginTop="100dp"
-            app:ccp_contentColor="?attr/colorOnSurface"
-            app:ccpDialog_textColor="?attr/colorOnSurface"
-            app:ccp_countryPreference="us,in"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp"
+            tools:context=".ui.chat.ChatFragment">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_number"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:endIconDrawable="@drawable/ic_baseline_history_24"
-            app:endIconMode="custom"
-            android:layout_marginTop="2dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ccp">
-
-            <com.github.ktvipin27.whatshelp.util.WhatsTextInputEditText
-                android:id="@+id/et_number"
-                android:layout_width="match_parent"
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_type_number"
-                android:inputType="phone"
-                android:maxLength="15"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+                app:ccpDialog_textColor="?attr/colorOnSurface"
+                app:ccp_autoFormatNumber="true"
+                app:ccp_contentColor="?attr/colorOnSurface"
+                app:ccp_countryPreference="us,in"
+                app:layout_constraintBottom_toTopOf="@id/til_number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias=".4"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_number">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_message"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_number"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="top|start"
-                android:hint="@string/hint_type_message"
-                android:inputType="textMultiLine"
-                android:maxLines="5"
-                android:minLines="3"
-                android:scrollbars="vertical"
-                android:text="@={viewModel.message}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="2dp"
+                app:endIconDrawable="@drawable/ic_baseline_history_24"
+                app:endIconMode="custom"
+                app:layout_constraintBottom_toTopOf="@id/til_message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ccp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/action_send"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_message" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.github.ktvipin27.whatshelp.util.WhatsTextInputEditText
+                    android:id="@+id/et_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_type_number"
+                    android:inputType="phone"
+                    android:maxLength="15"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@id/btn_send"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_number">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|start"
+                    android:hint="@string/hint_type_message"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:minLines="3"
+                    android:scrollbars="vertical"
+                    android:text="@={viewModel.message}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/action_send"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/til_message" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

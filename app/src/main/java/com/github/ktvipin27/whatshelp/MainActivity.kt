@@ -45,13 +45,13 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        /*navController.addOnDestinationChangedListener { _, destination, _ ->
             if(destination.id !in topLevelDestinationIds) {
                 navView.visibility = View.GONE
             } else {
                 navView.visibility = View.VISIBLE
             }
-        }
+        }*/
     }
 
     override fun onResume() {
