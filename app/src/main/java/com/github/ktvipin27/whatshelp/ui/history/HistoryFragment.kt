@@ -39,7 +39,7 @@ class HistoryFragment : Fragment() {
 
         historyAdapter.setItemClickListener { history ->
             findNavController().let { navController ->
-                navController.previousBackStackEntry?.savedStateHandle?.set(EXTRA_HISTORY, history)
+                navController.previousBackStackEntry?.savedStateHandle?.set(EXTRA_HISTORY, history.whatsAppNumber)
                 navController.navigateUp()
             }
         }

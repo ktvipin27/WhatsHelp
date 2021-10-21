@@ -3,6 +3,7 @@ package com.github.ktvipin27.whatshelp.ui.chat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.ktvipin27.whatshelp.data.model.WhatsAppNumber
 import com.github.ktvipin27.whatshelp.data.repo.WhatsHelpRepo
 import com.github.ktvipin27.whatshelp.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,14 +21,14 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
         isValidNumber: Boolean,
         countryCode: String,
         fullNumber: String,
-        formattedFullNumber: String,
+        formattedNumber: String,
     ) {
         val msg = message.value.toString()
         val number = fullNumber.substring(countryCode.length, fullNumber.length)
 
         when {
             isValidNumber -> {
-                saveHistory(formattedFullNumber, countryCode)
+                saveHistory(countryCode, number, formattedNumber)
 
                 state.value =
                     ChatState.OpenWhatsApp(fullNumber, msg)
@@ -44,9 +45,13 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
         }
     }
 
-    private fun saveHistory(formattedFullNumber: String, countryCode: String) {
+    private fun saveHistory(
+        countryCode: String,
+        number: String,
+        formattedNumber: String,
+    ) {
         viewModelScope.launch {
-            whatsHelpRepo.saveHistory(countryCode, formattedFullNumber)
+            whatsHelpRepo.saveHistory(WhatsAppNumber(countryCode.toInt(), number), formattedNumber)
         }
     }
 

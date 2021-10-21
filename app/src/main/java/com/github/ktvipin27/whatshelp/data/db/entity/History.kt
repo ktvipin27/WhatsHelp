@@ -1,8 +1,10 @@
 package com.github.ktvipin27.whatshelp.data.db.entity
 
 import android.os.Parcelable
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.github.ktvipin27.whatshelp.data.model.WhatsAppNumber
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
@@ -15,9 +17,10 @@ data class History(
 
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
 
-    val code: String,
+    @Embedded
+    val whatsAppNumber: WhatsAppNumber,
 
-    val number: String,
+    val formattedNumber: String,
 
-    val formattedFullNumber: String
+    var timeStamp: Long =  System.currentTimeMillis()
 ) : Parcelable

@@ -91,12 +91,12 @@ class ChatFragment : Fragment() {
         })
 
         findNavController().currentBackStackEntry?.savedStateHandle?.let { handle ->
-            handle.getLiveData<History>(EXTRA_HISTORY).observe(
+            handle.getLiveData<WhatsAppNumber>(EXTRA_HISTORY).observe(
                 viewLifecycleOwner
-            ) { history ->
-                handle.remove<History>(EXTRA_HISTORY)
-                binding.ccp.setCountryForPhoneCode(history.code.toInt())
-                binding.etNumber.setText(history.number)
+            ) { wan ->
+                handle.remove<WhatsAppNumber>(EXTRA_HISTORY)
+                binding.ccp.setCountryForPhoneCode(wan.code?:0)
+                binding.etNumber.setText(wan.number)
             }
         }
 
