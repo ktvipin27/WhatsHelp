@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,6 +20,7 @@ import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
 import com.github.ktvipin27.whatshelp.util.NumberUtil
 import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
 import com.github.ktvipin27.whatshelp.util.hideKeyboard
+import com.github.ktvipin27.whatshelp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -69,7 +69,9 @@ class ChatFragment : Fragment() {
 
         binding.btnSend.setOnClickListener {
             with(binding.ccp) {
-                chatViewModel.onClickSend(selectedCountryCode, fullNumber, formattedFullNumber)
+                chatViewModel.onClickSend(
+                    isValidFullNumber, selectedCountryCode, fullNumber, formattedFullNumber
+                )
             }
         }
 
@@ -83,6 +85,8 @@ class ChatFragment : Fragment() {
                     binding.root.hideKeyboard()
                     openWhatsApp(state.number, state.message)
                 }
+                ChatState.InvalidNumber -> toast(R.string.error_invalid_number)
+                ChatState.InvalidData -> toast(R.string.error_no_data)
             }
         })
 
@@ -106,7 +110,7 @@ class ChatFragment : Fragment() {
     ) {
         AlertDialog
             .Builder(requireContext())
-            .setMessage(getString(R.string.message_copied_number,wan.fullNumber))
+            .setMessage(getString(R.string.message_copied_number, wan.fullNumber))
             .setPositiveButton(R.string.action_use) { p0, _ ->
                 p0.dismiss()
                 wan.code?.let { code -> binding.ccp.setCountryForPhoneCode(code) }
@@ -143,13 +147,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun openWhatsApp(mobile: String, message: String) {
-        val isWhatsappInstalled = whatsAppHelper.isWhatsAppInstalled()
-
-        if (isWhatsappInstalled) {
-            whatsAppHelper.sendMessage(mobile, message)
-        } else {
-            Toast.makeText(context, getString(R.string.message_no_whatsapp), Toast.LENGTH_SHORT)
-                .show()
-        }
+        if (whatsAppHelper.isWhatsAppInstalled()) whatsAppHelper.sendMessage(mobile, message)
+        else toast(R.string.error_no_whatsapp)
     }
 }
