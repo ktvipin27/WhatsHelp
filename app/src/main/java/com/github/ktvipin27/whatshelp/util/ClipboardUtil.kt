@@ -16,11 +16,12 @@ class ClipboardUtil @Inject constructor(@ApplicationContext val context: Context
     private val clipboard: ClipboardManager? =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
 
-    fun getCopiedText(): String {
-        var text = ""
-        clipboard?.primaryClip?.getItemAt(0)?.text?.let {
-            text = it.toString()
+    val primaryClipText: String
+        get() {
+            var text = ""
+            clipboard?.primaryClip?.getItemAt(0)?.text?.let {
+                text = it.toString()
+            }
+            return text
         }
-        return text
-    }
 }

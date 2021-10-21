@@ -22,7 +22,7 @@ class WhatsTextInputEditText @JvmOverloads constructor(
 
     override fun onTextContextMenuItem(id: Int): Boolean {
         if (id == android.R.id.paste) {
-            val text = clipboardUtil.getCopiedText()
+            val text = clipboardUtil.primaryClipText
             onPasteListener?.invoke(text)
             return true
         }

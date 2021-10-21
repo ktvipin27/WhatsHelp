@@ -1,5 +1,6 @@
 package com.github.ktvipin27.whatshelp.ui.chat
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.ktvipin27.whatshelp.R
@@ -51,6 +55,12 @@ class ChatFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.tilNumber.setEndIconOnClickListener {
             findNavController().navigate(R.id.action_navigation_chat_to_navigation_history)
         }
@@ -65,12 +75,10 @@ class ChatFragment : Fragment() {
             }
         }
 
-        return binding.root
+        initObservers()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    private fun initObservers() {
         chatViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is ChatState.OpenWhatsApp -> {

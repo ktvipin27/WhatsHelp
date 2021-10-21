@@ -20,6 +20,7 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
     fun onClickSend(countryCode:String,fullNumber: String,formattedFullNumber: String) {
         val msg = message.value.toString()
 
+        val number=  fullNumber
         if (fullNumber.isNotEmpty()) saveHistory(formattedFullNumber,countryCode)
 
         state.value =
