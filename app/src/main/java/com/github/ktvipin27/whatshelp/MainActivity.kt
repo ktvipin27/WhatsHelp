@@ -2,18 +2,26 @@ package com.github.ktvipin27.whatshelp
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.github.ktvipin27.whatshelp.databinding.ActivityMainBinding
+import com.github.ktvipin27.whatshelp.util.ClipboardUtil
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val mainViewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var clipboardUtil: ClipboardUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +51,13 @@ class MainActivity : AppCompatActivity() {
             } else {
                 navView.visibility = View.VISIBLE
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.root.post {
+            mainViewModel.updateCopiedText(clipboardUtil.primaryClipText)
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.github.ktvipin27.whatshelp.ui.chat
 
-import android.content.Context
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +8,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.github.ktvipin27.whatshelp.MainViewModel
 import com.github.ktvipin27.whatshelp.R
 import com.github.ktvipin27.whatshelp.data.db.entity.History
+import com.github.ktvipin27.whatshelp.data.model.WhatsAppNumber
 import com.github.ktvipin27.whatshelp.databinding.FragmentChatBinding
-import com.github.ktvipin27.whatshelp.util.ClipboardUtil
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
 import com.github.ktvipin27.whatshelp.util.NumberUtil
 import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
@@ -32,6 +31,8 @@ class ChatFragment : Fragment() {
 
     private val chatViewModel: ChatViewModel by viewModels()
 
+    private val mainViewModel: MainViewModel by activityViewModels()
+
     private lateinit var binding: FragmentChatBinding
 
     @Inject
@@ -39,9 +40,6 @@ class ChatFragment : Fragment() {
 
     @Inject
     lateinit var numberUtil: NumberUtil
-
-    @Inject
-    lateinit var clipboardUtil: ClipboardUtil
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,6 +95,30 @@ class ChatFragment : Fragment() {
                 binding.etNumber.setText(history.number)
             }
         }
+
+        mainViewModel.copiedNumberLiveData.observe(viewLifecycleOwner, { wan ->
+            wan?.let { showCopiedNumberInfoDialog(wan) }
+        })
+    }
+
+    private fun showCopiedNumberInfoDialog(
+        wan: WhatsAppNumber,
+    ) {
+        AlertDialog
+            .Builder(requireContext())
+            .setMessage(getString(R.string.message_copied_number,wan.fullNumber))
+            .setPositiveButton(R.string.action_use) { p0, _ ->
+                p0.dismiss()
+                wan.code?.let { code -> binding.ccp.setCountryForPhoneCode(code) }
+                binding.etNumber.setText(wan.number)
+            }
+            .setNegativeButton(R.string.action_ignore) { p0, _ ->
+                p0.dismiss()
+            }
+            .setOnDismissListener {
+                mainViewModel.resetCopiedNumber()
+            }
+            .show()
     }
 
     private fun setTextFromClipboard(text: String) {
@@ -126,7 +148,7 @@ class ChatFragment : Fragment() {
         if (isWhatsappInstalled) {
             whatsAppHelper.sendMessage(mobile, message)
         } else {
-            Toast.makeText(context, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+            Toast.makeText(context, getString(R.string.message_no_whatsapp), Toast.LENGTH_SHORT)
                 .show()
         }
     }
