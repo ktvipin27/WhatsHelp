@@ -1,13 +1,10 @@
 package com.github.ktvipin27.whatshelp.util
 
 import android.content.Context
-import android.util.Log
+import android.telephony.PhoneNumberUtils
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,14 +22,19 @@ class NumberUtil @Inject constructor(@ApplicationContext val context: Context) {
 
     private val phoneUtil: PhoneNumberUtil = PhoneNumberUtil.createInstance(context)
 
-    suspend fun isValidFullNumber(number: String): NumberValidity {
+    fun isValidFullNumber(number: String): NumberValidity {
         return try {
-            val numberProto = phoneUtil.parse(number, "")
-            Log.d("isValidFullNumber","Country code: " + numberProto.countryCode)
-            NumberValidity.ValidNumber(numberProto.countryCode,
-                numberProto.nationalNumber.toString())
+
+            val spaceRemovedNumber = number.replace(" ", "")
+            val isGlobalPhoneNumber = PhoneNumberUtils.isGlobalPhoneNumber(spaceRemovedNumber)
+            if (isGlobalPhoneNumber) {
+                val numberProto = phoneUtil.parse(number, "")
+                NumberValidity.ValidNumber(numberProto.countryCode,
+                    numberProto.nationalNumber.toString())
+            } else
+                NumberValidity.InvalidNumber
+
         } catch (e: NumberParseException) {
-            Log.d("isValidFullNumber", "NumberParseException was thrown: $e")
             if (e.errorType == NumberParseException.ErrorType.INVALID_COUNTRY_CODE)
                 NumberValidity.InvalidCountryCode(number)
             else
