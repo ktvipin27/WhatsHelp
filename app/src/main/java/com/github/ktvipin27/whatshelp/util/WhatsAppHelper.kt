@@ -53,7 +53,7 @@ class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Contex
            else if (message.isNotEmpty())
                append("text=$message")
 
-       }.toString()
+       }.toString().replace(" ","%20")
 
     fun isWhatsAppInstalled() = appInstalledOrNot(PACKAGE_WHATSAPP)
 
