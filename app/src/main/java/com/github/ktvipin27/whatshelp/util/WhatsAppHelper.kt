@@ -10,6 +10,7 @@ import com.github.ktvipin27.whatshelp.util.Constants.PACKAGE_WHATSAPP
 import com.github.ktvipin27.whatshelp.util.Constants.PACKAGE_WHATSAPP_BUSINESS
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityScoped
+import java.lang.StringBuilder
 import javax.inject.Inject
 
 /**
@@ -42,7 +43,17 @@ class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Contex
     }
 
     private fun getChatLink(mobile: String,message: String): String =
-        "https://api.whatsapp.com/send?phone=$mobile&text=$message"
+        StringBuilder("https://api.whatsapp.com/send").apply {
+           if (mobile.isNotEmpty() || message.isNotEmpty())
+               append("?")
+           if (mobile.isNotEmpty() && message.isNotEmpty())
+               append("phone=$mobile&text=$message")
+           else if (mobile.isNotEmpty())
+               append("phone=$mobile")
+           else if (message.isNotEmpty())
+               append("text=$message")
+
+       }.toString()
 
     fun isWhatsAppInstalled() = appInstalledOrNot(PACKAGE_WHATSAPP)
 
