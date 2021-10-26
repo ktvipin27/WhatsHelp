@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/title_add_message"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="?attr/colorControlNormal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
