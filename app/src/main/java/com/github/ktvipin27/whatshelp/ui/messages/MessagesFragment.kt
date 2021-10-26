@@ -47,6 +47,10 @@ class MessagesFragment : Fragment() {
             }
         }
 
+        messagesAdapter.setItemDeleteListener { message ->
+            messagesViewModel.onClickDeleteMessage(message)
+        }
+
         binding.rvTemplates.apply {
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayout.VERTICAL))
             adapter = messagesAdapter

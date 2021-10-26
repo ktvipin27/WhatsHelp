@@ -15,4 +15,6 @@ interface WhatsHelpRepo {
     suspend fun getHistory(): List<History>
 
     fun getMessages(): Flow<List<Message>>
+
+    suspend fun deleteMessage(message: Message)
 }

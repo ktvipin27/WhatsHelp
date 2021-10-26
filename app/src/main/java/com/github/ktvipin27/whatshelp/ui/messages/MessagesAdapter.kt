@@ -28,6 +28,7 @@ class MessagesAdapter @Inject constructor() :
     ListAdapter<Message, MessagesAdapter.MessageViewHolder>(diffCallback) {
 
     private var itemClickListener: ((message:Message)->Unit)? = null
+    private var itemDeleteListener: ((message:Message)->Unit)? = null
 
     inner class MessageViewHolder(val binding: ItemMessageBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -41,10 +42,13 @@ class MessagesAdapter @Inject constructor() :
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        val history = currentList[position]
-        holder.binding.message = history
+        val message = currentList[position]
+        holder.binding.message = message
         holder.itemView.setOnClickListener {
-            itemClickListener?.invoke(history)
+            itemClickListener?.invoke(message)
+        }
+        holder.binding.btnDelete.setOnClickListener {
+            itemDeleteListener?.invoke(message)
         }
     }
 
@@ -55,6 +59,10 @@ class MessagesAdapter @Inject constructor() :
 
     fun setItemClickListener(listener: (message:Message)->Unit){
         itemClickListener = listener
+    }
+
+    fun setItemDeleteListener(listener: (message:Message)->Unit){
+        itemDeleteListener = listener
     }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
