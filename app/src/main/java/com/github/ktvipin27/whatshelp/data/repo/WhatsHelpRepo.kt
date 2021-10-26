@@ -17,4 +17,6 @@ interface WhatsHelpRepo {
     fun getMessages(): Flow<List<Message>>
 
     suspend fun deleteMessage(message: Message)
+
+    suspend fun addMessage(text: String)
 }

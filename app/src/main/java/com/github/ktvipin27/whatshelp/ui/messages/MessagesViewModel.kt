@@ -20,4 +20,10 @@ class MessagesViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelp
             whatsHelpRepo.deleteMessage(message)
         }
     }
+
+    fun addMessage(text:String){
+        viewModelScope.launch {
+            whatsHelpRepo.addMessage(text)
+        }
+    }
 }

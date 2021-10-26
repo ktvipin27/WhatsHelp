@@ -13,7 +13,10 @@ import javax.inject.Inject
  * Created by Vipin KT on 15/10/21
  */
 @ViewModelScoped
-class WhatsHelpRepoImpl @Inject constructor(private val historyDao: HistoryDao,private val messageDao: MessageDao) : WhatsHelpRepo {
+class WhatsHelpRepoImpl @Inject constructor(
+    private val historyDao: HistoryDao,
+    private val messageDao: MessageDao,
+) : WhatsHelpRepo {
 
     override suspend fun saveHistory(whatsAppNumber: WhatsAppNumber, formattedNumber: String) {
         historyDao.delete(whatsAppNumber.code, whatsAppNumber.number)
@@ -29,4 +32,6 @@ class WhatsHelpRepoImpl @Inject constructor(private val historyDao: HistoryDao,p
     override fun getMessages(): Flow<List<Message>> = messageDao.getAll()
 
     override suspend fun deleteMessage(message: Message) = messageDao.delete(message)
+
+    override suspend fun addMessage(text: String) = messageDao.insert(Message(text = text))
 }

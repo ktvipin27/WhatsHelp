@@ -13,6 +13,7 @@ import com.github.ktvipin27.whatshelp.R
 import com.github.ktvipin27.whatshelp.databinding.FragmentMessagesBinding
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_MESSAGE
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -51,9 +52,13 @@ class MessagesFragment : Fragment() {
             messagesViewModel.onClickDeleteMessage(message)
         }
 
-        binding.rvTemplates.apply {
+        binding.rvMessages.apply {
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayout.VERTICAL))
             adapter = messagesAdapter
+        }
+
+        binding.fab.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_messages_to_navigation_add_messages)
         }
         return binding.root
     }

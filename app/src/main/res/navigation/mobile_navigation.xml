@@ -48,5 +48,15 @@
         android:id="@+id/navigation_messages"
         android:name="com.github.ktvipin27.whatshelp.ui.messages.MessagesFragment"
         android:label="@string/title_messages"
-        tools:layout="@layout/fragment_messages" />
+        tools:layout="@layout/fragment_messages" >
+        <action
+            android:id="@+id/action_navigation_messages_to_navigation_add_messages"
+            app:destination="@id/navigation_add_messages"/>
+    </fragment>
+
+    <dialog
+        android:id="@+id/navigation_add_messages"
+        android:name="com.github.ktvipin27.whatshelp.ui.messages.AddMessageFragment"
+        tools:layout="@layout/fragment_add_message" />
+
 </navigation>

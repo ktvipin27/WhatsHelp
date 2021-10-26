@@ -7,7 +7,7 @@
     <string name="hint_type_message">Message</string>
     <string name="hint_type_number">Mobile Number</string>
     <string name="title_history">History</string>
-    <string name="title_messages">Messages</string>
+    <string name="title_messages">Quick Messages</string>
     <string name="message_no_data">No data found!</string>
     <string name="message_copied_number">Number %s copied</string>
     <string name="action_use">Use</string>
@@ -15,4 +15,8 @@
     <string name="error_no_whatsapp">WhatsApp not Installed</string>
     <string name="error_invalid_number">Enter a valid number</string>
     <string name="error_no_data">Enter the data</string>
+    <string name="error_no_message">Enter the message</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_save">Save</string>
+    <string name="title_add_message">New Message</string>
 </resources>
