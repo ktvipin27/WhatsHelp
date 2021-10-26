@@ -13,9 +13,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.ktvipin27.whatshelp.MainViewModel
 import com.github.ktvipin27.whatshelp.R
+import com.github.ktvipin27.whatshelp.data.db.entity.History
+import com.github.ktvipin27.whatshelp.data.db.entity.Message
 import com.github.ktvipin27.whatshelp.data.model.WhatsAppNumber
 import com.github.ktvipin27.whatshelp.databinding.FragmentChatBinding
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
+import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_MESSAGE
 import com.github.ktvipin27.whatshelp.util.NumberUtil
 import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
 import com.github.ktvipin27.whatshelp.util.hideKeyboard
@@ -62,6 +65,10 @@ class ChatFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_chat_to_navigation_history)
         }
 
+        binding.tilMessage.setEndIconOnClickListener {
+            findNavController().navigate(R.id.action_navigation_chat_to_navigation_messages)
+        }
+
         binding.ccp.registerCarrierNumberEditText(binding.etNumber)
 
         binding.etNumber.setOnPasteListener { text -> setTextFromClipboard(text) }
@@ -103,6 +110,12 @@ class ChatFragment : Fragment() {
                 handle.remove<WhatsAppNumber>(EXTRA_HISTORY)
                 binding.ccp.setCountryForPhoneCode(wan.code?:0)
                 binding.etNumber.setText(wan.number)
+            }
+            handle.getLiveData<String>(EXTRA_MESSAGE).observe(
+                viewLifecycleOwner
+            ) { message ->
+                handle.remove<String>(EXTRA_MESSAGE)
+                binding.etMessage.setText(message)
             }
         }
 
