@@ -3,6 +3,7 @@ package com.github.ktvipin27.whatshelp.di.module
 import android.content.Context
 import com.github.ktvipin27.whatshelp.data.db.AppDatabase
 import com.github.ktvipin27.whatshelp.data.db.dao.HistoryDao
+import com.github.ktvipin27.whatshelp.data.db.dao.MessageDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,12 +20,12 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
-        return AppDatabase.getInstance(context)
-    }
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
+        AppDatabase.getInstance(context)
 
     @Provides
-    fun provideHistoryDao(appDatabase: AppDatabase): HistoryDao {
-        return appDatabase.historyDao()
-    }
+    fun provideHistoryDao(appDatabase: AppDatabase): HistoryDao = appDatabase.historyDao()
+
+    @Provides
+    fun provideMessageDao(appDatabase: AppDatabase): MessageDao = appDatabase.messageDao()
 }

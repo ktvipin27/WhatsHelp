@@ -1,0 +1,27 @@
+[
+  {
+    "id" : 1,
+    "text" : "I am driving, text you later.",
+    "timeStamp" : 1635250310
+  },
+  {
+    "id" : 2,
+    "text" : "Good night.",
+    "timeStamp" : 1635250320
+  },
+  {
+    "id" : 3,
+    "text" : "Good morning!",
+    "timeStamp" : 1635250330
+  },
+  {
+    "id" : 4,
+    "text" : "I am busy, text you later.",
+    "timeStamp" : 1635250340
+  },
+  {
+    "id" : 5,
+    "text" : "Can't talk now.",
+    "timeStamp" : 1635250350
+  }
+]

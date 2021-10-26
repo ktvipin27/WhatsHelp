@@ -17,6 +17,13 @@
             app:exitAnim="@anim/slide_right"
             app:popEnterAnim="@anim/slide_left"
             app:popExitAnim="@anim/slide_right"/>
+        <action
+            android:id="@+id/action_navigation_chat_to_navigation_messages"
+            app:destination="@id/navigation_messages"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
+            app:popEnterAnim="@anim/slide_left"
+            app:popExitAnim="@anim/slide_right"/>
     </fragment>
 
     <fragment
@@ -36,4 +43,10 @@
         android:name="com.github.ktvipin27.whatshelp.ui.history.HistoryFragment"
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history" />
+
+    <fragment
+        android:id="@+id/navigation_messages"
+        android:name="com.github.ktvipin27.whatshelp.ui.messages.MessagesFragment"
+        android:label="@string/title_messages"
+        tools:layout="@layout/fragment_messages" />
 </navigation>

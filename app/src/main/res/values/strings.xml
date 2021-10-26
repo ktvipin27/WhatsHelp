@@ -7,6 +7,7 @@
     <string name="hint_type_message">Message</string>
     <string name="hint_type_number">Mobile Number</string>
     <string name="title_history">History</string>
+    <string name="title_messages">Messages</string>
     <string name="message_no_data">No data found!</string>
     <string name="message_copied_number">Number %s copied</string>
     <string name="action_use">Use</string>

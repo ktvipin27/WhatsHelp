@@ -62,6 +62,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                app:endIconDrawable="@drawable/ic_baseline_quickreply_24"
+                app:endIconMode="custom"
                 app:layout_constraintBottom_toTopOf="@id/btn_send"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
