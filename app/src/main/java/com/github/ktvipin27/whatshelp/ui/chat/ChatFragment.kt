@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.ktvipin27.whatshelp.MainViewModel
 import com.github.ktvipin27.whatshelp.R
-import com.github.ktvipin27.whatshelp.data.db.entity.History
 import com.github.ktvipin27.whatshelp.data.model.WhatsAppNumber
 import com.github.ktvipin27.whatshelp.databinding.FragmentChatBinding
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
@@ -67,15 +66,18 @@ class ChatFragment : Fragment() {
 
         binding.etNumber.setOnPasteListener { text -> setTextFromClipboard(text) }
 
-        binding.btnSend.setOnClickListener {
-            with(binding.ccp) {
-                chatViewModel.onClickSend(
-                    isValidFullNumber, selectedCountryCode, fullNumber, formattedFullNumber
-                )
-            }
-        }
+        binding.btnSend.setOnClickListener { onClickAction(ChatAction.OPEN_CHAT) }
+        binding.btnShareLink.setOnClickListener { onClickAction(ChatAction.SHARE_LINK) }
 
         initObservers()
+    }
+
+    private fun onClickAction(action:ChatAction) {
+        with(binding.ccp) {
+            chatViewModel.onClickAction(
+                action,isValidFullNumber, selectedCountryCode, fullNumber, formattedFullNumber
+            )
+        }
     }
 
     private fun initObservers() {
@@ -84,6 +86,10 @@ class ChatFragment : Fragment() {
                 is ChatState.OpenWhatsApp -> {
                     binding.root.hideKeyboard()
                     openWhatsApp(state.number, state.message)
+                }
+                is ChatState.ShareLink -> {
+                    binding.root.hideKeyboard()
+                    whatsAppHelper.shareLink(state.number, state.message)
                 }
                 ChatState.InvalidNumber -> toast(R.string.error_invalid_number)
                 ChatState.InvalidData -> toast(R.string.error_no_data)
@@ -147,7 +153,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun openWhatsApp(mobile: String, message: String) {
-        if (whatsAppHelper.isWhatsAppInstalled()) whatsAppHelper.sendMessage(mobile, message)
+        if (whatsAppHelper.isWhatsAppInstalled()) whatsAppHelper.openChat(mobile, message)
         else toast(R.string.error_no_whatsapp)
     }
 }

@@ -17,7 +17,8 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
 
     val message = MutableLiveData("")
 
-    fun onClickSend(
+    fun onClickAction(
+        action: ChatAction,
         isValidNumber: Boolean,
         countryCode: String,
         fullNumber: String,
@@ -30,13 +31,20 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
             isValidNumber -> {
                 saveHistory(countryCode, number, formattedNumber)
 
+                if (action==ChatAction.OPEN_CHAT)
                 state.value =
                     ChatState.OpenWhatsApp(fullNumber, msg)
+                else
+                state.value =
+                    ChatState.ShareLink(fullNumber, msg)
             }
             number.isEmpty() -> {
-                state.value = if (msg.isNotEmpty())
-                    ChatState.OpenWhatsApp("", msg)
-                else
+                state.value = if (msg.isNotEmpty()) {
+                    if (action == ChatAction.OPEN_CHAT)
+                        ChatState.OpenWhatsApp("", msg)
+                    else
+                        ChatState.ShareLink("", msg)
+                } else
                     ChatState.InvalidData
             }
             else -> {

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.pm.PackageManager
 import android.net.Uri
+import androidx.core.app.ShareCompat
 import com.github.ktvipin27.whatshelp.util.Constants.PACKAGE_WHATSAPP
 import com.github.ktvipin27.whatshelp.util.Constants.PACKAGE_WHATSAPP_BUSINESS
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -17,9 +18,9 @@ import javax.inject.Inject
 @ActivityScoped
 class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Context) {
 
-    fun sendMessage(mobile: String, message: String) {
+    fun openChat(mobile: String, message: String) {
 
-        val chatLink = getChatLink(message, mobile)
+        val chatLink = getChatLink(mobile,message)
 
         val uri = Uri.parse(chatLink)
         val sendIntent = Intent(Intent.ACTION_VIEW, uri).apply {
@@ -29,7 +30,18 @@ class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Contex
         context.startActivity(sendIntent)
     }
 
-    private fun getChatLink(message: String, mobile: String): String =
+    fun shareLink(mobile: String, message: String){
+        val chatLink = getChatLink(mobile, message)
+        val shareIntent = ShareCompat.IntentBuilder(context)
+            .setType("text/plain")
+            .setChooserTitle("Share Link")
+            .setText(chatLink)
+            .createChooserIntent()
+            .apply { flags = FLAG_ACTIVITY_NEW_TASK }
+        context.startActivity(shareIntent)
+    }
+
+    private fun getChatLink(mobile: String,message: String): String =
         "https://api.whatsapp.com/send?phone=$mobile&text=$message"
 
     fun isWhatsAppInstalled() = appInstalledOrNot(PACKAGE_WHATSAPP)

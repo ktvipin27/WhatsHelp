@@ -5,6 +5,7 @@ package com.github.ktvipin27.whatshelp.ui.chat
  */
 sealed class ChatState{
     data class OpenWhatsApp(val number:String, val message:String): ChatState()
+    data class ShareLink(val number:String, val message:String): ChatState()
     object InvalidNumber : ChatState()
     object InvalidData : ChatState()
 }
