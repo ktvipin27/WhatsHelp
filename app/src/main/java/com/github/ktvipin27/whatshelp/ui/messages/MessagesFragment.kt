@@ -1,5 +1,6 @@
 package com.github.ktvipin27.whatshelp.ui.messages
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
@@ -9,10 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.github.ktvipin27.whatshelp.R
 import com.github.ktvipin27.whatshelp.databinding.FragmentMessagesBinding
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_MESSAGE
+import com.github.ktvipin27.whatshelp.util.SwipeToDeleteCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -48,10 +52,6 @@ class MessagesFragment : Fragment() {
             }
         }
 
-        messagesAdapter.setItemDeleteListener { message ->
-            messagesViewModel.onClickDeleteMessage(message)
-        }
-
         binding.rvMessages.apply {
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayout.VERTICAL))
             adapter = messagesAdapter
@@ -69,6 +69,13 @@ class MessagesFragment : Fragment() {
         messagesViewModel.messages.observe(viewLifecycleOwner, { messages ->
             messagesAdapter.submitList(messages)
         })
+
+        ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                messagesViewModel.deleteMessage(viewHolder.bindingAdapterPosition)
+            }
+        }).attachToRecyclerView(binding.rvMessages)
+
     }
 
     override fun onDestroyView() {

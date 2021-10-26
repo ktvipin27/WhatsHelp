@@ -15,9 +15,9 @@ class MessagesViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelp
 
     val messages: LiveData<List<Message>> = whatsHelpRepo.getMessages().asLiveData()
 
-    fun onClickDeleteMessage(message: Message) {
+    fun deleteMessage(position:Int) {
         viewModelScope.launch {
-            whatsHelpRepo.deleteMessage(message)
+            messages.value?.get(position)?.let { whatsHelpRepo.deleteMessage(it) }
         }
     }
 
