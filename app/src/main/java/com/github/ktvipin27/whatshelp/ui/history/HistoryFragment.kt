@@ -9,9 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.github.ktvipin27.whatshelp.R
 import com.github.ktvipin27.whatshelp.databinding.FragmentHistoryBinding
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
+import com.github.ktvipin27.whatshelp.util.SwipeToDeleteCallback
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -57,6 +60,12 @@ class HistoryFragment : Fragment() {
         historyViewModel.history.observe(viewLifecycleOwner, { history ->
             historyAdapter.submitList(history)
         })
+
+        ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                historyViewModel.deleteHistory(viewHolder.bindingAdapterPosition)
+            }
+        }).attachToRecyclerView(binding.rvHistory)
     }
 
     override fun onDestroyView() {

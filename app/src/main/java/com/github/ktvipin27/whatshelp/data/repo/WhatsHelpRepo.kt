@@ -12,7 +12,9 @@ interface WhatsHelpRepo {
 
     suspend fun saveHistory(whatsAppNumber: WhatsAppNumber, formattedNumber: String)
 
-    suspend fun getHistory(): List<History>
+    fun getHistory(): Flow<List<History>>
+
+    suspend fun deleteHistory(history: History)
 
     fun getMessages(): Flow<List<Message>>
 

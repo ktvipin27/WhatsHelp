@@ -3,6 +3,7 @@ package com.github.ktvipin27.whatshelp.data.db.dao
 import androidx.room.*
 import com.github.ktvipin27.whatshelp.data.db.entity.History
 import com.github.ktvipin27.whatshelp.data.model.WhatsAppNumber
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by Vipin KT on 15/10/21
@@ -11,7 +12,7 @@ import com.github.ktvipin27.whatshelp.data.model.WhatsAppNumber
 interface HistoryDao {
 
     @Query("SELECT * FROM history ORDER BY timeStamp DESC")
-    suspend fun getAll(): List<History>
+    fun getAll(): Flow<List<History>>
 
     @Insert
     suspend fun insert(history: History)

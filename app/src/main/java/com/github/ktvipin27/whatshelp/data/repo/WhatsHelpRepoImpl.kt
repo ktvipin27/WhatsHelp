@@ -27,7 +27,9 @@ class WhatsHelpRepoImpl @Inject constructor(
         historyDao.insert(history)
     }
 
-    override suspend fun getHistory(): List<History> = historyDao.getAll()
+    override fun getHistory(): Flow<List<History>> = historyDao.getAll()
+
+    override suspend fun deleteHistory(history: History) = historyDao.delete(history)
 
     override fun getMessages(): Flow<List<Message>> = messageDao.getAll()
 
