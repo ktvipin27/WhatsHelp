@@ -7,7 +7,7 @@
 
         <variable
             name="message"
-            type="com.github.ktvipin27.whatshelp.data.db.entity.Message" />
+            type="com.whatshelp.data.db.entity.Message" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

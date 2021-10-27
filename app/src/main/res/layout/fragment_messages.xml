@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.github.ktvipin27.whatshelp.ui.messages.MessagesViewModel" />
+            type="com.whatshelp.ui.messages.MessagesViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

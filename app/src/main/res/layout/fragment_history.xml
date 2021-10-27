@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.github.ktvipin27.whatshelp.ui.history.HistoryViewModel" />
+            type="com.whatshelp.ui.history.HistoryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
