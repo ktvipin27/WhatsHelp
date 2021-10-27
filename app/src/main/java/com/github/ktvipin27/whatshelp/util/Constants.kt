@@ -10,4 +10,8 @@ object Constants {
 
     const val PACKAGE_WHATSAPP = "com.whatsapp"
     const val PACKAGE_WHATSAPP_BUSINESS = "com.whatsapp.w4b"
+
+    const val APP_WHATSAPP = "whatsapp"
+    const val APP_WHATSAPP_BUSINESS = "whatsapp_business"
+
 }

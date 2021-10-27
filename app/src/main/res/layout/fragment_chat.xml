@@ -24,22 +24,52 @@
             <com.hbb20.CountryCodePicker
                 android:id="@+id/ccp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 app:ccpDialog_textColor="?attr/colorOnSurface"
                 app:ccp_autoFormatNumber="true"
                 app:ccp_contentColor="?attr/colorOnSurface"
-                app:ccp_countryPreference="us,in"
+                app:ccp_countryPreference="in,us"
                 app:layout_constraintBottom_toTopOf="@id/til_number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btg"
                 app:layout_constraintVertical_bias=".4"
+                android:paddingVertical="4dp"
+                android:background="@drawable/bg_strock_with_rounded_corner"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintVertical_chainStyle="packed" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/btg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                app:checkedButton="@id/btn_whatsapp"
+                app:layout_constraintBottom_toBottomOf="@id/ccp"
+                app:layout_constraintStart_toEndOf="@id/ccp"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <Button
+                    android:id="@+id/btn_whatsapp"
+                    style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:icon="@drawable/ic_whatsapp" />
+
+                <Button
+                    android:id="@+id/btn_business"
+                    style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:icon="@drawable/ic_whatsapp_business" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="10dp"
                 app:endIconDrawable="@drawable/ic_baseline_history_24"
                 app:endIconMode="custom"
                 app:layout_constraintBottom_toTopOf="@id/til_message"
@@ -61,7 +91,7 @@
                 android:id="@+id/til_message"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 app:endIconDrawable="@drawable/ic_baseline_quickreply_24"
                 app:endIconMode="custom"
                 app:layout_constraintBottom_toTopOf="@id/btn_send"
@@ -84,16 +114,16 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_share_link"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_marginTop="10dp"
-                app:icon="@drawable/ic_baseline_share_24"
                 android:text="@string/action_share_link"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:icon="@drawable/ic_baseline_share_24"
                 app:layout_constraintBaseline_toBaselineOf="@id/btn_send"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_send"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_message" />
 

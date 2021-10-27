@@ -19,13 +19,13 @@ import javax.inject.Inject
 @ActivityScoped
 class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Context) {
 
-    fun openChat(mobile: String, message: String) {
+    fun openChat(mobile: String, message: String, packageName: String) {
 
         val chatLink = getChatLink(mobile,message)
 
         val uri = Uri.parse(chatLink)
         val sendIntent = Intent(Intent.ACTION_VIEW, uri).apply {
-            setPackage(PACKAGE_WHATSAPP)
+            setPackage(packageName)
             flags = FLAG_ACTIVITY_NEW_TASK
         }
         context.startActivity(sendIntent)
@@ -59,7 +59,7 @@ class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Contex
 
     fun isWhatsAppBusinessInstalled() = appInstalledOrNot(PACKAGE_WHATSAPP_BUSINESS)
 
-    private fun appInstalledOrNot(packageName: String): Boolean = try {
+    fun appInstalledOrNot(packageName: String): Boolean = try {
         context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
         true
     } catch (e: PackageManager.NameNotFoundException) {

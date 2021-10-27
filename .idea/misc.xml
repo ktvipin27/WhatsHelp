@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.35555555555555557" />
         <entry key="../../.gradle/caches/transforms-3/569dd7f9ac71fd91f49b3f71c239a163/transformed/core-1.7.0-rc01/res/menu/example_menu.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/drawable/bg_rounded_corner.xml" value="0.362962962962963" />
         <entry key="app/src/main/res/drawable/ic_baseline_chat_24.xml" value="0.35555555555555557" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.36574074074074076" />
         <entry key="app/src/main/res/drawable/ic_baseline_history_24.xml" value="0.36574074074074076" />
@@ -15,6 +16,9 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36574074074074076" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.36574074074074076" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.36574074074074076" />
+        <entry key="app/src/main/res/drawable/ic_whatsapp.xml" value="0.362962962962963" />
+        <entry key="app/src/main/res/drawable/ic_whatsapp_business.xml" value="0.362962962962963" />
+        <entry key="app/src/main/res/drawable/selector_stroke_color.xml" value="0.362962962962963" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/dialog_copied_number_info.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_add_message.xml" value="0.37604166666666666" />

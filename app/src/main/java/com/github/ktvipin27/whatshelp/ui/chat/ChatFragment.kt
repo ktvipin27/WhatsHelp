@@ -13,16 +13,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.ktvipin27.whatshelp.MainViewModel
 import com.github.ktvipin27.whatshelp.R
-import com.github.ktvipin27.whatshelp.data.db.entity.History
-import com.github.ktvipin27.whatshelp.data.db.entity.Message
+import com.github.ktvipin27.whatshelp.data.model.App
+import com.github.ktvipin27.whatshelp.data.model.WhatsApp
+import com.github.ktvipin27.whatshelp.data.model.WhatsAppBusiness
 import com.github.ktvipin27.whatshelp.data.model.WhatsAppNumber
 import com.github.ktvipin27.whatshelp.databinding.FragmentChatBinding
+import com.github.ktvipin27.whatshelp.util.*
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_HISTORY
 import com.github.ktvipin27.whatshelp.util.Constants.EXTRA_MESSAGE
-import com.github.ktvipin27.whatshelp.util.NumberUtil
-import com.github.ktvipin27.whatshelp.util.WhatsAppHelper
-import com.github.ktvipin27.whatshelp.util.hideKeyboard
-import com.github.ktvipin27.whatshelp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -76,13 +74,20 @@ class ChatFragment : Fragment() {
         binding.btnSend.setOnClickListener { onClickAction(ChatAction.OPEN_CHAT) }
         binding.btnShareLink.setOnClickListener { onClickAction(ChatAction.SHARE_LINK) }
 
+        binding.btg.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            if (checkedId == R.id.btn_whatsapp)
+                chatViewModel.setSelectedApp(WhatsApp)
+            else
+                chatViewModel.setSelectedApp(WhatsAppBusiness)
+        }
+
         initObservers()
     }
 
-    private fun onClickAction(action:ChatAction) {
+    private fun onClickAction(action: ChatAction) {
         with(binding.ccp) {
             chatViewModel.onClickAction(
-                action,isValidFullNumber, selectedCountryCode, fullNumber, formattedFullNumber
+                action, isValidFullNumber, selectedCountryCode, fullNumber, formattedFullNumber
             )
         }
     }
@@ -90,9 +95,9 @@ class ChatFragment : Fragment() {
     private fun initObservers() {
         chatViewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
-                is ChatState.OpenWhatsApp -> {
+                is ChatState.OpenChat -> {
                     binding.root.hideKeyboard()
-                    openWhatsApp(state.number, state.message)
+                    openChatApp(state.number, state.message, state.app)
                 }
                 is ChatState.ShareLink -> {
                     binding.root.hideKeyboard()
@@ -108,7 +113,7 @@ class ChatFragment : Fragment() {
                 viewLifecycleOwner
             ) { wan ->
                 handle.remove<WhatsAppNumber>(EXTRA_HISTORY)
-                binding.ccp.setCountryForPhoneCode(wan.code?:0)
+                binding.ccp.setCountryForPhoneCode(wan.code ?: 0)
                 binding.etNumber.setText(wan.number)
             }
             handle.getLiveData<String>(EXTRA_MESSAGE).observe(
@@ -165,8 +170,8 @@ class ChatFragment : Fragment() {
         binding.unbind()
     }
 
-    private fun openWhatsApp(mobile: String, message: String) {
-        if (whatsAppHelper.isWhatsAppInstalled()) whatsAppHelper.openChat(mobile, message)
-        else toast(R.string.error_no_whatsapp)
+    private fun openChatApp(mobile: String, message: String, app: App) {
+        if (whatsAppHelper.appInstalledOrNot(app.packageName)) whatsAppHelper.openChat(mobile, message,app.packageName)
+        else toast(getString(R.string.error_no_whatsapp,app.name))
     }
 }

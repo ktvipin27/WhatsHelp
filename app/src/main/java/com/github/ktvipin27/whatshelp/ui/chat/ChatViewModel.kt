@@ -3,6 +3,8 @@ package com.github.ktvipin27.whatshelp.ui.chat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.ktvipin27.whatshelp.data.model.App
+import com.github.ktvipin27.whatshelp.data.model.WhatsApp
 import com.github.ktvipin27.whatshelp.data.model.WhatsAppNumber
 import com.github.ktvipin27.whatshelp.data.repo.WhatsHelpRepo
 import com.github.ktvipin27.whatshelp.util.SingleLiveEvent
@@ -14,8 +16,8 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo) : ViewModel() {
 
     val state = SingleLiveEvent<ChatState>()
-
     val message = MutableLiveData("")
+    private var selectedApp : App = WhatsApp
 
     fun onClickAction(
         action: ChatAction,
@@ -33,7 +35,7 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
 
                 if (action==ChatAction.OPEN_CHAT)
                 state.value =
-                    ChatState.OpenWhatsApp(fullNumber, msg)
+                    ChatState.OpenChat(fullNumber, msg, selectedApp)
                 else
                 state.value =
                     ChatState.ShareLink(fullNumber, msg)
@@ -41,7 +43,7 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
             number.isEmpty() -> {
                 state.value = if (msg.isNotEmpty()) {
                     if (action == ChatAction.OPEN_CHAT)
-                        ChatState.OpenWhatsApp("", msg)
+                        ChatState.OpenChat("", msg, selectedApp)
                     else
                         ChatState.ShareLink("", msg)
                 } else
@@ -61,6 +63,10 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
         viewModelScope.launch {
             whatsHelpRepo.saveHistory(WhatsAppNumber(countryCode.toInt(), number), formattedNumber)
         }
+    }
+
+    fun setSelectedApp(selectedApp: App) {
+        this.selectedApp = selectedApp
     }
 
 }
