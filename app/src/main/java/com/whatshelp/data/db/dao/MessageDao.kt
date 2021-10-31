@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MessageDao {
 
-    @Query("SELECT * FROM messages ORDER BY timeStamp DESC")
+    @Query("SELECT * FROM messages ORDER BY timeStamp")
     fun getAll(): Flow<List<Message>>
 
     @Insert

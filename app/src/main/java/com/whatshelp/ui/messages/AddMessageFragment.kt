@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.whatshelp.R
 import com.whatshelp.databinding.FragmentAddMessageBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.whatshelp.util.Constants.EXTRA_ADD_MESSAGE
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -52,6 +54,11 @@ class AddMessageFragment : BottomSheetDialogFragment() {
         else {
             binding.tilMessage.error = ""
             messagesViewModel.addMessage(text)
+
+            findNavController().let { navController ->
+                navController.previousBackStackEntry?.savedStateHandle?.set(EXTRA_ADD_MESSAGE, true)
+            }
+
             dismiss()
         }
     }
