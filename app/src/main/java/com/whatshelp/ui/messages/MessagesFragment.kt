@@ -62,6 +62,7 @@ class MessagesFragment : Fragment() {
 
         messagesViewModel.messages.observe(viewLifecycleOwner, { messages ->
             messagesAdapter.submitList(messages)
+            setHasOptionsMenu(messages.isNotEmpty())
         })
 
         ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
@@ -70,6 +71,18 @@ class MessagesFragment : Fragment() {
             }
         }).attachToRecyclerView(binding.rvMessages)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_delete_all, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_delete_all -> messagesViewModel.deleteAllMessages()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {

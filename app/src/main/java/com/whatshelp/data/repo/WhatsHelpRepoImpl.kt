@@ -31,9 +31,13 @@ class WhatsHelpRepoImpl @Inject constructor(
 
     override suspend fun deleteHistory(history: History) = historyDao.delete(history)
 
+    override suspend fun clearHistory() = historyDao.clear()
+
     override fun getMessages(): Flow<List<Message>> = messageDao.getAll()
 
     override suspend fun deleteMessage(message: Message) = messageDao.delete(message)
+
+    override suspend fun deleteAllMessages() = messageDao.clear()
 
     override suspend fun addMessage(text: String) = messageDao.insert(Message(text = text))
 }

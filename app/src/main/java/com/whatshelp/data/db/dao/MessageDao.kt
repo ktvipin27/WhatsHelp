@@ -23,5 +23,5 @@ interface MessageDao {
     suspend fun delete(message: Message)
 
     @Query("DELETE FROM messages")
-    suspend fun clean()
+    suspend fun clear()
 }

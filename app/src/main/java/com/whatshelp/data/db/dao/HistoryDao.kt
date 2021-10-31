@@ -23,5 +23,5 @@ interface HistoryDao {
     suspend fun delete(code:Int?,number: String)
 
     @Query("DELETE FROM history")
-    suspend fun clean()
+    suspend fun clear()
 }

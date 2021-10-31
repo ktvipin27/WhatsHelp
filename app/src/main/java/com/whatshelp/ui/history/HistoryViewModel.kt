@@ -12,9 +12,11 @@ class HistoryViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpR
 
     val history: LiveData<List<History>> = whatsHelpRepo.getHistory().asLiveData()
 
-    fun deleteHistory(position:Int) {
-        viewModelScope.launch {
-            history.value?.get(position)?.let { whatsHelpRepo.deleteHistory(it) }
-        }
+    fun deleteHistory(position:Int) = viewModelScope.launch {
+        history.value?.get(position)?.let { whatsHelpRepo.deleteHistory(it) }
+    }
+
+    fun clearHistory() = viewModelScope.launch {
+        whatsHelpRepo.clearHistory()
     }
 }

@@ -58,6 +58,7 @@ class HistoryFragment : Fragment() {
 
         historyViewModel.history.observe(viewLifecycleOwner, { history ->
             historyAdapter.submitList(history)
+            setHasOptionsMenu(history.isNotEmpty())
         })
 
         ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
@@ -65,6 +66,18 @@ class HistoryFragment : Fragment() {
                 historyViewModel.deleteHistory(viewHolder.bindingAdapterPosition)
             }
         }).attachToRecyclerView(binding.rvHistory)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_delete_all, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_delete_all -> historyViewModel.clearHistory()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {

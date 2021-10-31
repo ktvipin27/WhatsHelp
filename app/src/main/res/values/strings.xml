@@ -20,4 +20,5 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_save">Save</string>
     <string name="title_add_message">New Message</string>
+    <string name="action_delete_all">Delete All</string>
 </resources>
