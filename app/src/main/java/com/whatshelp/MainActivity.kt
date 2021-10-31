@@ -39,31 +39,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        val navView: BottomNavigationView = binding.navView
-
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.navController
 
-        /*val topLevelDestinationIds = setOf(
-            R.id.navigation_chat, R.id.navigation_dashboard, R.id.navigation_notifications
-        )
-
-        appBarConfiguration = AppBarConfiguration( topLevelDestinationIds )*/
-
         with(navHostFragment.navController) {
             appBarConfiguration = AppBarConfiguration( graph )
             setupActionBarWithNavController(this, appBarConfiguration)
-            navView.setupWithNavController(this)
         }
-
-        /*navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id !in topLevelDestinationIds) {
-                navView.visibility = View.GONE
-            } else {
-                navView.visibility = View.VISIBLE
-            }
-        }*/
     }
 
     override fun onResume() {
