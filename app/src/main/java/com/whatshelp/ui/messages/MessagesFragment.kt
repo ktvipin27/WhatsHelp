@@ -78,7 +78,7 @@ class MessagesFragment : Fragment() {
                 navController.navigate(R.id.action_navigation_messages_to_navigation_add_messages)
             }
 
-            fab.postDelayed({fab.show()},500)
+            fab.postDelayed({fab.show()},300)
         }
 
         messagesViewModel.messages.observe(viewLifecycleOwner, { messages ->
