@@ -1,4 +1,4 @@
-package com.whatshelp
+package com.whatshelp.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

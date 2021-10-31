@@ -2,36 +2,41 @@ package com.whatshelp.ui.chat
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.*
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.whatshelp.MainViewModel
 import com.whatshelp.R
 import com.whatshelp.data.model.App
 import com.whatshelp.data.model.WhatsApp
 import com.whatshelp.data.model.WhatsAppBusiness
 import com.whatshelp.data.model.WhatsAppNumber
 import com.whatshelp.databinding.FragmentChatBinding
-import com.whatshelp.util.*
+import com.whatshelp.ui.MainViewModel
+import com.whatshelp.ui.base.DBFragment
 import com.whatshelp.util.Constants.EXTRA_HISTORY
 import com.whatshelp.util.Constants.EXTRA_MESSAGE
+import com.whatshelp.util.NumberUtil
+import com.whatshelp.util.WhatsAppHelper
+import com.whatshelp.util.hideKeyboard
+import com.whatshelp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class ChatFragment : Fragment() {
+class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
 
-    private val chatViewModel: ChatViewModel by viewModels()
+    override val viewModel: ChatViewModel by viewModels()
+
+    override fun getLayoutResource(): Int = R.layout.fragment_chat
 
     private val mainViewModel: MainViewModel by activityViewModels()
-
-    private lateinit var binding: FragmentChatBinding
 
     @Inject
     lateinit var whatsAppHelper: WhatsAppHelper
@@ -39,24 +44,10 @@ class ChatFragment : Fragment() {
     @Inject
     lateinit var numberUtil: NumberUtil
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false)
-        binding.apply {
-            viewModel = chatViewModel
-            lifecycleOwner = viewLifecycleOwner
-        }
-
-        setHasOptionsMenu(true)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
 
         binding.tilNumber.setEndIconOnClickListener {
             findNavController().navigate(R.id.action_navigation_chat_to_navigation_history)
@@ -75,9 +66,9 @@ class ChatFragment : Fragment() {
 
         binding.btg.addOnButtonCheckedListener { group, checkedId, isChecked ->
             if (checkedId == R.id.btn_whatsapp)
-                chatViewModel.setSelectedApp(WhatsApp)
+                viewModel.setSelectedApp(WhatsApp)
             else
-                chatViewModel.setSelectedApp(WhatsAppBusiness)
+                viewModel.setSelectedApp(WhatsAppBusiness)
         }
 
         initObservers()
@@ -85,14 +76,14 @@ class ChatFragment : Fragment() {
 
     private fun onClickAction(action: ChatAction) {
         with(binding.ccp) {
-            chatViewModel.onClickAction(
+            viewModel.onClickAction(
                 action, isValidFullNumber, selectedCountryCode, fullNumber, formattedFullNumber
             )
         }
     }
 
     private fun initObservers() {
-        chatViewModel.state.observe(viewLifecycleOwner, { state ->
+        viewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is ChatState.OpenChat -> {
                     binding.root.hideKeyboard()
@@ -181,8 +172,7 @@ class ChatFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         binding.ccp.deregisterCarrierNumberEditText()
-        binding.unbind()
+        super.onDestroyView()
     }
 }

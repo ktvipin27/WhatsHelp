@@ -1,17 +1,15 @@
-package com.whatshelp
+package com.whatshelp.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import com.whatshelp.R
 import com.whatshelp.databinding.ActivityMainBinding
 import com.whatshelp.util.ClipboardUtil
 import dagger.hilt.android.AndroidEntryPoint

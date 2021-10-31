@@ -1,9 +1,5 @@
 package com.whatshelp.ui.about
 
-import android.content.Intent
-import android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -12,26 +8,25 @@ import android.text.style.URLSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.whatshelp.BuildConfig
 import com.whatshelp.R
 import com.whatshelp.databinding.FragmentAboutBinding
+import com.whatshelp.ui.base.VBFragment
 import com.whatshelp.util.Constants.GITHUB_PROFILE_URL
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 
 @AndroidEntryPoint
-class AboutFragment : Fragment() {
-    private lateinit var binding: FragmentAboutBinding
+class AboutFragment : VBFragment<FragmentAboutBinding, AboutViewModel>() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentAboutBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    override val viewModel: AboutViewModel by viewModels()
+
+    override fun getViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+    ): FragmentAboutBinding = FragmentAboutBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,9 +44,5 @@ class AboutFragment : Fragment() {
             tvAppVersion.text =
                 getString(R.string.app_version, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
         }
-    }
-
-    private fun launchBrowser(url: String) = Intent(Intent.ACTION_VIEW, Uri.parse(url)).also {
-        startActivity(it)
     }
 }
