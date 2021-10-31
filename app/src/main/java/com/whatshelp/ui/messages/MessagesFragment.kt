@@ -71,6 +71,7 @@ class MessagesFragment : Fragment() {
             }
         }).attachToRecyclerView(binding.rvMessages)
 
+        view.postDelayed({binding.fab.show()},400)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

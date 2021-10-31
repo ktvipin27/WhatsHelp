@@ -13,17 +13,17 @@
         <action
             android:id="@+id/action_navigation_chat_to_navigation_history"
             app:destination="@id/navigation_history"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/slide_right"
-            app:popEnterAnim="@anim/slide_left"
-            app:popExitAnim="@anim/slide_right"/>
+            app:enterAnim="@anim/slide_screen_from_right"
+            app:exitAnim="@anim/slide_screen_to_left"
+            app:popEnterAnim="@anim/slide_screen_from_left"
+            app:popExitAnim="@anim/slide_screen_to_right"/>
         <action
             android:id="@+id/action_navigation_chat_to_navigation_messages"
             app:destination="@id/navigation_messages"
-            app:enterAnim="@anim/slide_left"
-            app:exitAnim="@anim/slide_right"
-            app:popEnterAnim="@anim/slide_left"
-            app:popExitAnim="@anim/slide_right"/>
+            app:enterAnim="@anim/slide_screen_from_right"
+            app:exitAnim="@anim/slide_screen_to_left"
+            app:popEnterAnim="@anim/slide_screen_from_left"
+            app:popExitAnim="@anim/slide_screen_to_right"/>
     </fragment>
 
     <fragment
