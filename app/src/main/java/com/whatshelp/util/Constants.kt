@@ -15,4 +15,6 @@ object Constants {
     const val APP_WHATSAPP = "whatsapp"
     const val APP_WHATSAPP_BUSINESS = "whatsapp_business"
 
+    const val GITHUB_PROFILE_URL = "https://github.com/ktvipin27"
+
 }

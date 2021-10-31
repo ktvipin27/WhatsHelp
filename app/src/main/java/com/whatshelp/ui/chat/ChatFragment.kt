@@ -2,9 +2,7 @@ package com.whatshelp.ui.chat
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -53,6 +51,7 @@ class ChatFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -164,14 +163,26 @@ class ChatFragment : Fragment() {
         }
     }
 
+    private fun openChatApp(mobile: String, message: String, app: App) {
+        if (whatsAppHelper.appInstalledOrNot(app.packageName)) whatsAppHelper.openChat(mobile, message,app.packageName)
+        else toast(getString(R.string.error_no_whatsapp,app.name))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_about -> findNavController().navigate(R.id.action_navigation_chat_to_aboutFragment)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding.ccp.deregisterCarrierNumberEditText()
         binding.unbind()
-    }
-
-    private fun openChatApp(mobile: String, message: String, app: App) {
-        if (whatsAppHelper.appInstalledOrNot(app.packageName)) whatsAppHelper.openChat(mobile, message,app.packageName)
-        else toast(getString(R.string.error_no_whatsapp,app.name))
     }
 }
