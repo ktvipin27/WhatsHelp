@@ -31,6 +31,13 @@
             app:exitAnim="@anim/slide_screen_to_left"
             app:popEnterAnim="@anim/slide_screen_from_left"
             app:popExitAnim="@anim/slide_screen_to_right" />
+        <action
+            android:id="@+id/action_chatFragment_to_feedbackFragment"
+            app:destination="@id/feedbackFragment"
+            app:enterAnim="@anim/slide_screen_from_right"
+            app:exitAnim="@anim/slide_screen_to_left"
+            app:popEnterAnim="@anim/slide_screen_from_left"
+            app:popExitAnim="@anim/slide_screen_to_right" />
     </fragment>
 
     <fragment
@@ -59,5 +66,11 @@
         android:name="com.whatshelp.ui.about.AboutFragment"
         android:label="@string/title_about"
         tools:layout="@layout/fragment_about" />
+
+    <fragment
+        android:id="@+id/feedbackFragment"
+        android:name="com.whatshelp.ui.feedback.FeedbackFragment"
+        android:label="@string/title_feedback"
+        tools:layout="@layout/fragment_feedback" />
 
 </navigation>

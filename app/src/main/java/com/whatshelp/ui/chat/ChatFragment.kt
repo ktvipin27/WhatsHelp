@@ -167,6 +167,7 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_about -> findNavController().navigate(R.id.action_chatFragment_to_aboutFragment)
+            R.id.action_feedback -> findNavController().navigate(R.id.action_chatFragment_to_feedbackFragment)
         }
         return super.onOptionsItemSelected(item)
     }
