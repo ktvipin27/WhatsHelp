@@ -50,11 +50,11 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
         setHasOptionsMenu(true)
 
         binding.tilNumber.setEndIconOnClickListener {
-            findNavController().navigate(R.id.action_navigation_chat_to_navigation_history)
+            findNavController().navigate(R.id.action_chatFragment_to_historyFragment)
         }
 
         binding.tilMessage.setEndIconOnClickListener {
-            findNavController().navigate(R.id.action_navigation_chat_to_navigation_messages)
+            findNavController().navigate(R.id.action_chatFragment_to_messagesFragment)
         }
 
         binding.ccp.registerCarrierNumberEditText(binding.etNumber)
@@ -166,7 +166,7 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_about -> findNavController().navigate(R.id.action_navigation_chat_to_aboutFragment)
+            R.id.action_about -> findNavController().navigate(R.id.action_chatFragment_to_aboutFragment)
         }
         return super.onOptionsItemSelected(item)
     }

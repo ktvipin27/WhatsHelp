@@ -59,7 +59,7 @@ class MessagesFragment : DBFragment<FragmentMessagesBinding, MessagesViewModel>(
             }
 
             fab.setOnClickListener {
-                navController.navigate(R.id.action_navigation_messages_to_navigation_add_messages)
+                navController.navigate(R.id.action_messagesFragment_to_addMessagesFragment)
             }
 
             fab.postDelayed({fab.show()},300)
