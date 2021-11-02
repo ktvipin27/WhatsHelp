@@ -17,6 +17,7 @@ import com.whatshelp.data.model.WhatsAppBusiness
 import com.whatshelp.data.model.WhatsAppNumber
 import com.whatshelp.databinding.FragmentChatBinding
 import com.whatshelp.manager.rating.RatingsManager
+import com.whatshelp.manager.share.ShareManager
 import com.whatshelp.manager.whatsapp.WhatsAppManager
 import com.whatshelp.ui.MainViewModel
 import com.whatshelp.ui.base.DBFragment
@@ -47,6 +48,9 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
 
     @Inject
     lateinit var ratingsManager: RatingsManager
+
+    @Inject
+    lateinit var shareManager: ShareManager
 
     private val navController by lazy { findNavController() }
 
@@ -177,6 +181,7 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
             R.id.action_about -> navController.navigate(R.id.action_chatFragment_to_aboutFragment)
             R.id.action_feedback -> navController.navigate(R.id.action_chatFragment_to_feedbackFragment)
             R.id.action_rate -> ratingsManager.rateApp()
+            R.id.action_share -> shareManager.shareApp()
         }
         return super.onOptionsItemSelected(item)
     }

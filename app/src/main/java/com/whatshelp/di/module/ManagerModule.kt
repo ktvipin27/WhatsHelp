@@ -2,6 +2,8 @@ package com.whatshelp.di.module
 
 import com.whatshelp.manager.rating.RatingsManager
 import com.whatshelp.manager.rating.RatingsManagerImpl
+import com.whatshelp.manager.share.ShareManager
+import com.whatshelp.manager.share.ShareManagerImpl
 import com.whatshelp.manager.task.TaskManager
 import com.whatshelp.manager.task.TaskManagerImpl
 import com.whatshelp.manager.whatsapp.WhatsAppManager
@@ -23,4 +25,7 @@ interface ManagerModule {
 
     @Binds
     fun bindWhatsAppManager(whatsAppManager: WhatsAppManagerImpl): WhatsAppManager
+
+    @Binds
+    fun bindShareManager(shareManager: ShareManagerImpl): ShareManager
 }

@@ -33,4 +33,8 @@
     <string name="action_submit">Submit</string>
     <string name="message_feedback_submit_success">Feedback submitted</string>
     <string name="action_rate_us">Rate Us</string>
+    <string name="action_share_app">Share App</string>
+    <string name="message_share_app">Hey! Found an awesome app for sending messages to unknown number in
+        WhatsApp. Its free and easy to use. Download the WhatsHelp app now!
+        https://play.google.com/store/apps/details?id=%s</string>
 </resources>
