@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.text.style.URLSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,10 @@ import androidx.fragment.app.viewModels
 import com.whatshelp.BuildConfig
 import com.whatshelp.R
 import com.whatshelp.databinding.FragmentAboutBinding
+import com.whatshelp.manager.analytics.AnalyticsEvent
 import com.whatshelp.ui.base.VBFragment
 import com.whatshelp.util.Constants.GITHUB_PROFILE_URL
+import com.whatshelp.util.URLSpanWithListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -34,7 +35,9 @@ class AboutFragment : VBFragment<FragmentAboutBinding, AboutViewModel>() {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR);
         val string =
             SpannableString(getString(R.string.app_copyright, currentYear, currentYear + 1))
-        string.setSpan(URLSpan(GITHUB_PROFILE_URL), 12, string.length,
+        string.setSpan(URLSpanWithListener(GITHUB_PROFILE_URL) {
+            analyticsManager.logEvent(AnalyticsEvent.About.DeveloperConnect)
+        }, 12, string.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         binding.run {

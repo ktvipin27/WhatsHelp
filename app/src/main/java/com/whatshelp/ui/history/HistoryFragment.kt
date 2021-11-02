@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.whatshelp.R
 import com.whatshelp.databinding.FragmentHistoryBinding
+import com.whatshelp.manager.analytics.AnalyticsEvent
 import com.whatshelp.ui.base.DBFragment
 import com.whatshelp.util.Constants.EXTRA_HISTORY
 import com.whatshelp.util.SwipeToDeleteCallback
@@ -34,6 +35,7 @@ class HistoryFragment : DBFragment<FragmentHistoryBinding, HistoryViewModel>() {
 
         historyAdapter.setItemClickListener { history ->
             findNavController().let { navController ->
+                analyticsManager.logEvent(AnalyticsEvent.History.Click)
                 navController.previousBackStackEntry?.savedStateHandle?.set(EXTRA_HISTORY,
                     history.whatsAppNumber)
                 navController.navigateUp()
@@ -53,6 +55,7 @@ class HistoryFragment : DBFragment<FragmentHistoryBinding, HistoryViewModel>() {
         ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 viewModel.deleteHistory(viewHolder.bindingAdapterPosition)
+                analyticsManager.logEvent(AnalyticsEvent.History.Delete)
             }
         }).attachToRecyclerView(binding.rvHistory)
     }
@@ -64,7 +67,10 @@ class HistoryFragment : DBFragment<FragmentHistoryBinding, HistoryViewModel>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_delete_all -> viewModel.clearHistory()
+            R.id.action_delete_all -> {
+                viewModel.clearHistory()
+                analyticsManager.logEvent(AnalyticsEvent.History.Clear)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

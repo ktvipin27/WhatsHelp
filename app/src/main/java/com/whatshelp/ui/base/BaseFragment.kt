@@ -19,6 +19,5 @@ abstract class BaseFragment<VM : ViewModel> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         analyticsManager.logScreenView(javaClass.simpleName)
-        analyticsManager.logScreenView(javaClass.simpleName)
     }
 }

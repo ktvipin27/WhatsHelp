@@ -15,7 +15,7 @@ import com.whatshelp.data.model.WhatsApp
 import com.whatshelp.data.model.WhatsAppBusiness
 import com.whatshelp.data.model.WhatsAppNumber
 import com.whatshelp.databinding.FragmentChatBinding
-import com.whatshelp.manager.analytics.Analytics
+import com.whatshelp.manager.analytics.AnalyticsEvent
 import com.whatshelp.manager.rating.RatingsManager
 import com.whatshelp.manager.share.ShareManager
 import com.whatshelp.manager.whatsapp.WhatsAppManager
@@ -61,18 +61,19 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
 
         binding.tilNumber.setEndIconOnClickListener {
             navController.navigate(R.id.action_chatFragment_to_historyFragment)
-            analyticsManager.logHistoryClick()
+            analyticsManager.logEvent(AnalyticsEvent.History.Open)
         }
 
         binding.tilMessage.setEndIconOnClickListener {
             navController.navigate(R.id.action_chatFragment_to_messagesFragment)
-            analyticsManager.logQuickMessageClick()
+            analyticsManager.logEvent(AnalyticsEvent.QuickMessage.Open)
         }
 
         binding.ccp.run {
             registerCarrierNumberEditText(binding.etNumber)
             setOnCountryChangeListener {
-                analyticsManager.changeCountry(selectedCountryCode, selectedCountryName)
+                analyticsManager.logEvent(AnalyticsEvent.ChangeCountry(selectedCountryCode,
+                    selectedCountryName))
             }
         }
 
@@ -82,7 +83,7 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
         binding.btnShareLink.setOnClickListener { onClickAction(ChatAction.SHARE_LINK) }
 
         binding.btg.addOnButtonCheckedListener { group, checkedId, isChecked ->
-            analyticsManager.changeChatApp()
+            analyticsManager.logEvent(AnalyticsEvent.ChangeChatApp)
             if (checkedId == R.id.btn_whatsapp)
                 viewModel.setSelectedApp(WhatsApp)
             else
@@ -106,12 +107,12 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
                 is ChatState.OpenChat -> {
                     binding.root.hideKeyboard()
                     whatsAppManager.openChat(state.number, state.message, state.app)
-                    analyticsManager.openWhatsapp(state.app.name.lowercase())
+                    analyticsManager.logEvent(AnalyticsEvent.OpenWhatsApp(state.app.name.lowercase()))
                 }
                 is ChatState.ShareLink -> {
                     binding.root.hideKeyboard()
                     whatsAppManager.shareLink(state.number, state.message)
-                    analyticsManager.shareChatLink()
+                    analyticsManager.logEvent(AnalyticsEvent.ShareChatLink)
                 }
                 ChatState.InvalidNumber -> toast(R.string.error_invalid_number)
                 ChatState.InvalidData -> toast(R.string.error_no_data)
@@ -149,18 +150,18 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
                 p0.dismiss()
                 wan.code?.let { code -> binding.ccp.setCountryForPhoneCode(code) }
                 binding.etNumber.setText(wan.number)
-                analyticsManager.logCopiedNumberDialog(Analytics.CopiedNumber.Use)
+                analyticsManager.logEvent(AnalyticsEvent.CopiedNumber.Use)
             }
             .setNegativeButton(R.string.action_ignore) { p0, _ ->
                 p0.dismiss()
-                analyticsManager.logCopiedNumberDialog(Analytics.CopiedNumber.Ignore)
+                analyticsManager.logEvent(AnalyticsEvent.CopiedNumber.Ignore)
             }
             .setOnDismissListener {
                 mainViewModel.resetCopiedNumber()
             }
             .show()
             .also {
-                analyticsManager.logCopiedNumberDialog(Analytics.CopiedNumber.Display)
+                analyticsManager.logEvent(AnalyticsEvent.CopiedNumber.Display)
             }
     }
 
@@ -188,19 +189,19 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
         when (item.itemId) {
             R.id.action_about -> {
                 navController.navigate(R.id.action_chatFragment_to_aboutFragment)
-                analyticsManager.logMainMenuClick(Analytics.Param.Menu.ABOUT)
+                analyticsManager.logEvent(AnalyticsEvent.About.Open)
             }
             R.id.action_feedback -> {
                 navController.navigate(R.id.action_chatFragment_to_feedbackFragment)
-                analyticsManager.logMainMenuClick(Analytics.Param.Menu.FEEDBACK)
+                analyticsManager.logEvent(AnalyticsEvent.Feedback.Open)
             }
             R.id.action_rate -> {
                 ratingsManager.rateApp()
-                analyticsManager.logMainMenuClick(Analytics.Param.Menu.RATE_APP)
+                analyticsManager.logEvent(AnalyticsEvent.RateApp)
             }
             R.id.action_share -> {
                 shareManager.shareApp()
-                analyticsManager.logMainMenuClick(Analytics.Param.Menu.SHARE_APP)
+                analyticsManager.logEvent(AnalyticsEvent.ShareApp)
             }
         }
         return super.onOptionsItemSelected(item)

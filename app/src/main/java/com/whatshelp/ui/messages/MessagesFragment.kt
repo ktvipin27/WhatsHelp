@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.whatshelp.R
 import com.whatshelp.databinding.FragmentMessagesBinding
+import com.whatshelp.manager.analytics.AnalyticsEvent
 import com.whatshelp.ui.base.DBFragment
 import com.whatshelp.util.Constants.EXTRA_ADD_MESSAGE
 import com.whatshelp.util.Constants.EXTRA_MESSAGE
@@ -40,6 +41,7 @@ class MessagesFragment : DBFragment<FragmentMessagesBinding, MessagesViewModel>(
         currentSavedStateHandle = navController.currentBackStackEntry?.savedStateHandle
 
         messagesAdapter.setItemClickListener { message ->
+            analyticsManager.logEvent(AnalyticsEvent.QuickMessage.Click)
             with(navController) {
                 previousBackStackEntry?.savedStateHandle?.set(EXTRA_MESSAGE, message.text)
                 navigateUp()
@@ -48,6 +50,7 @@ class MessagesFragment : DBFragment<FragmentMessagesBinding, MessagesViewModel>(
 
         ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                analyticsManager.logEvent(AnalyticsEvent.QuickMessage.Delete)
                 viewModel.deleteMessage(viewHolder.bindingAdapterPosition)
             }
         }).attachToRecyclerView(binding.rvMessages)
@@ -59,6 +62,7 @@ class MessagesFragment : DBFragment<FragmentMessagesBinding, MessagesViewModel>(
             }
 
             fab.setOnClickListener {
+                analyticsManager.logEvent(AnalyticsEvent.QuickMessage.New)
                 navController.navigate(R.id.action_messagesFragment_to_addMessagesFragment)
             }
 
@@ -85,7 +89,10 @@ class MessagesFragment : DBFragment<FragmentMessagesBinding, MessagesViewModel>(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_delete_all -> viewModel.deleteAllMessages()
+            R.id.action_delete_all -> {
+                analyticsManager.logEvent(AnalyticsEvent.QuickMessage.Clear)
+                viewModel.deleteAllMessages()
+            }
         }
         return super.onOptionsItemSelected(item)
     }

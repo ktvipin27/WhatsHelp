@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.whatshelp.R
 import com.whatshelp.databinding.FragmentAddMessageBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.whatshelp.manager.analytics.AnalyticsEvent
+import com.whatshelp.manager.analytics.AnalyticsManager
 import com.whatshelp.util.Constants.EXTRA_ADD_MESSAGE
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Created by Vipin KT on 26/10/21
@@ -19,11 +22,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddMessageFragment : BottomSheetDialogFragment() {
 
-    lateinit var binding: FragmentAddMessageBinding
+    private lateinit var binding: FragmentAddMessageBinding
 
-    private val messagesViewModel: MessagesViewModel by viewModels()
+    private val viewModel: MessagesViewModel by viewModels()
 
     private val emptyMessageError by lazy { getString(R.string.error_no_message) }
+
+    @Inject
+    lateinit var analyticsManager: AnalyticsManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +42,11 @@ class AddMessageFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnDismiss.setOnClickListener { dismiss() }
+        analyticsManager.logScreenView(javaClass.simpleName)
+        binding.btnDismiss.setOnClickListener {
+            analyticsManager.logEvent(AnalyticsEvent.QuickMessage.Discard)
+            dismiss()
+        }
         binding.btnSave.setOnClickListener {
             onClickSave()
         }
@@ -48,12 +58,14 @@ class AddMessageFragment : BottomSheetDialogFragment() {
     }
 
     private fun onClickSave() {
+        analyticsManager.logEvent(AnalyticsEvent.QuickMessage.Save)
+
         val text = binding.etMessage.text.toString()
         if (text.isEmpty() || text.isBlank())
             binding.tilMessage.error = emptyMessageError
         else {
             binding.tilMessage.error = ""
-            messagesViewModel.addMessage(text)
+            viewModel.addMessage(text)
 
             findNavController().let { navController ->
                 navController.previousBackStackEntry?.savedStateHandle?.set(EXTRA_ADD_MESSAGE, true)
