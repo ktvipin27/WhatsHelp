@@ -9,11 +9,9 @@ object Constants {
     const val EXTRA_MESSAGE = "message"
     const val EXTRA_ADD_MESSAGE = "is_new_message_added"
 
+    const val PACKAGE_WHATSHELP = "com.whatshelp"
     const val PACKAGE_WHATSAPP = "com.whatsapp"
     const val PACKAGE_WHATSAPP_BUSINESS = "com.whatsapp.w4b"
-
-    const val APP_WHATSAPP = "whatsapp"
-    const val APP_WHATSAPP_BUSINESS = "whatsapp_business"
 
     const val GITHUB_PROFILE_URL = "https://github.com/ktvipin27"
 

@@ -18,12 +18,9 @@ import com.whatshelp.data.model.WhatsAppNumber
 import com.whatshelp.databinding.FragmentChatBinding
 import com.whatshelp.ui.MainViewModel
 import com.whatshelp.ui.base.DBFragment
+import com.whatshelp.util.*
 import com.whatshelp.util.Constants.EXTRA_HISTORY
 import com.whatshelp.util.Constants.EXTRA_MESSAGE
-import com.whatshelp.util.NumberUtil
-import com.whatshelp.util.WhatsAppHelper
-import com.whatshelp.util.hideKeyboard
-import com.whatshelp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,6 +40,9 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
 
     @Inject
     lateinit var numberUtil: NumberUtil
+
+    @Inject
+    lateinit var ratingsManager: RatingsManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -168,6 +168,7 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
         when (item.itemId) {
             R.id.action_about -> findNavController().navigate(R.id.action_chatFragment_to_aboutFragment)
             R.id.action_feedback -> findNavController().navigate(R.id.action_chatFragment_to_feedbackFragment)
+            R.id.action_rate -> ratingsManager.rateApp()
         }
         return super.onOptionsItemSelected(item)
     }
