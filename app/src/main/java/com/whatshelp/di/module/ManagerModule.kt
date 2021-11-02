@@ -1,5 +1,7 @@
 package com.whatshelp.di.module
 
+import com.whatshelp.manager.analytics.AnalyticsManager
+import com.whatshelp.manager.analytics.AnalyticsManagerImpl
 import com.whatshelp.manager.app.AppManager
 import com.whatshelp.manager.app.AppManagerImpl
 import com.whatshelp.manager.rating.RatingsManager
@@ -33,4 +35,7 @@ interface ManagerModule {
 
     @Binds
     fun bindAppManager(appManager: AppManagerImpl): AppManager
+
+    @Binds
+    fun bindAnalyticsManager(analyticsManager: AnalyticsManagerImpl): AnalyticsManager
 }
