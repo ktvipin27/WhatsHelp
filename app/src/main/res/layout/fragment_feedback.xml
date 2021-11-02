@@ -87,7 +87,8 @@
                     android:gravity="top|start"
                     android:inputType="textMultiLine"
                     android:maxLines="5"
-                    android:minLines="3"
+                    android:fadeScrollbars="false"
+                    android:minLines="5"
                     android:scrollbars="vertical"
                     android:text="@={viewModel.feedback}" />
             </com.google.android.material.textfield.TextInputLayout>

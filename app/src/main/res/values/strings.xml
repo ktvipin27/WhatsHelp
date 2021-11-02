@@ -26,7 +26,7 @@
     <string name="action_share">Share</string>
     <string name="action_feedback">Feedback</string>
     <string name="title_feedback">Feedback</string>
-    <string name="label_feedback_type">Feedback Type</string>
+    <string name="label_feedback_type">Type</string>
     <string name="label_feedback_type_suggestion">Suggestion</string>
     <string name="label_feedback_type_bug">Bug</string>
     <string name="hint_feedback">Feedback</string>
