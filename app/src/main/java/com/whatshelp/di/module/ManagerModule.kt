@@ -1,5 +1,7 @@
 package com.whatshelp.di.module
 
+import com.whatshelp.manager.app.AppManager
+import com.whatshelp.manager.app.AppManagerImpl
 import com.whatshelp.manager.rating.RatingsManager
 import com.whatshelp.manager.rating.RatingsManagerImpl
 import com.whatshelp.manager.share.ShareManager
@@ -28,4 +30,7 @@ interface ManagerModule {
 
     @Binds
     fun bindShareManager(shareManager: ShareManagerImpl): ShareManager
+
+    @Binds
+    fun bindAppManager(appManager: AppManagerImpl): AppManager
 }

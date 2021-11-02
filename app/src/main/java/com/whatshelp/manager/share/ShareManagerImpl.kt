@@ -1,10 +1,9 @@
 package com.whatshelp.manager.share
 
 import android.content.Context
-import android.content.Intent
-import androidx.core.app.ShareCompat
+import com.whatshelp.BuildConfig
 import com.whatshelp.R
-import com.whatshelp.util.Constants
+import com.whatshelp.manager.app.AppManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,18 +12,14 @@ import javax.inject.Singleton
  * Created by Vipin KT on 02/11/21
  */
 @Singleton
-class ShareManagerImpl @Inject constructor(@ApplicationContext val context: Context) :
-    ShareManager {
+class ShareManagerImpl @Inject constructor(
+    @ApplicationContext val context: Context,
+    private val appManager: AppManager,
+) : ShareManager {
 
     override fun shareApp() {
-        val shareIntent = ShareCompat.IntentBuilder(context)
-            .setType("text/plain")
-            .setChooserTitle(context.getString(R.string.message_share_app))
-            .setSubject(context.getString(R.string.app_name))
-            .setText(context.getString(R.string.message_share_app, Constants.PACKAGE_WHATSHELP))
-            .createChooserIntent()
-            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(shareIntent)
+        val text = context.getString(R.string.message_share_app, BuildConfig.APPLICATION_ID)
+        appManager.shareText(text)
     }
 
 }

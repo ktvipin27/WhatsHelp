@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.whatshelp.R
-import com.whatshelp.data.model.App
 import com.whatshelp.data.model.WhatsApp
 import com.whatshelp.data.model.WhatsAppBusiness
 import com.whatshelp.data.model.WhatsAppNumber
@@ -97,7 +96,7 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
             when (state) {
                 is ChatState.OpenChat -> {
                     binding.root.hideKeyboard()
-                    openChatApp(state.number, state.message, state.app)
+                    whatsAppManager.openChat(state.number, state.message, state.app)
                 }
                 is ChatState.ShareLink -> {
                     binding.root.hideKeyboard()
@@ -162,13 +161,6 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
                 }
             }
         }
-    }
-
-    private fun openChatApp(mobile: String, message: String, app: App) {
-        if (whatsAppManager.appInstalledOrNot(app.packageName)) whatsAppManager.openChat(mobile,
-            message,
-            app.packageName)
-        else toast(getString(R.string.error_no_whatsapp, app.name))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
