@@ -58,4 +58,9 @@ sealed class AnalyticsEvent(
         object Open : About(Analytics.Event.OPEN_ABOUT)
         object DeveloperConnect : About(Analytics.Event.CLICK_DEVELOPER_CONNECT)
     }
+
+    sealed class AppUpdate(override val event: String) : AnalyticsEvent(event) {
+        object AppUpdateAvailable : About(Analytics.Event.APP_UPDATE_AVAILABLE)
+        object AppUpdateDownloaded : About(Analytics.Event.APP_UPDATE_DOWNLOADED)
+    }
 }

@@ -38,6 +38,9 @@ object Analytics {
 
         const val OPEN_ABOUT = "about"
         const val CLICK_DEVELOPER_CONNECT = "click_developer_connect"
+
+        const val APP_UPDATE_AVAILABLE = "app_update_available"
+        const val APP_UPDATE_DOWNLOADED = "app_update_downloaded"
     }
 
     object Param {
