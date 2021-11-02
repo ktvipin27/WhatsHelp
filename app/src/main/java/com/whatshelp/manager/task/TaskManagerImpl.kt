@@ -1,4 +1,4 @@
-package com.whatshelp.task
+package com.whatshelp.manager.task
 
 import android.os.Build
 import androidx.work.*
@@ -17,9 +17,9 @@ import javax.inject.Singleton
  * Created by Vipin KT on 02/11/21
  */
 @Singleton
-class WHTaskManagerImpl @Inject constructor(
+class TaskManagerImpl @Inject constructor(
     private val workManager: WorkManager,
-) : WHTaskManager {
+) : TaskManager {
 
     override fun submitFeedback(feedbackType: FeedbackType, feedbackText: String) {
 

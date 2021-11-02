@@ -16,11 +16,15 @@ import com.whatshelp.data.model.WhatsApp
 import com.whatshelp.data.model.WhatsAppBusiness
 import com.whatshelp.data.model.WhatsAppNumber
 import com.whatshelp.databinding.FragmentChatBinding
+import com.whatshelp.manager.rating.RatingsManager
+import com.whatshelp.manager.whatsapp.WhatsAppManager
 import com.whatshelp.ui.MainViewModel
 import com.whatshelp.ui.base.DBFragment
-import com.whatshelp.util.*
 import com.whatshelp.util.Constants.EXTRA_HISTORY
 import com.whatshelp.util.Constants.EXTRA_MESSAGE
+import com.whatshelp.util.NumberUtil
+import com.whatshelp.util.hideKeyboard
+import com.whatshelp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,13 +40,15 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
     private val mainViewModel: MainViewModel by activityViewModels()
 
     @Inject
-    lateinit var whatsAppHelper: WhatsAppHelper
-
-    @Inject
     lateinit var numberUtil: NumberUtil
 
     @Inject
+    lateinit var whatsAppManager: WhatsAppManager
+
+    @Inject
     lateinit var ratingsManager: RatingsManager
+
+    private val navController by lazy { findNavController() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,11 +56,11 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
         setHasOptionsMenu(true)
 
         binding.tilNumber.setEndIconOnClickListener {
-            findNavController().navigate(R.id.action_chatFragment_to_historyFragment)
+            navController.navigate(R.id.action_chatFragment_to_historyFragment)
         }
 
         binding.tilMessage.setEndIconOnClickListener {
-            findNavController().navigate(R.id.action_chatFragment_to_messagesFragment)
+            navController.navigate(R.id.action_chatFragment_to_messagesFragment)
         }
 
         binding.ccp.registerCarrierNumberEditText(binding.etNumber)
@@ -91,14 +97,14 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
                 }
                 is ChatState.ShareLink -> {
                     binding.root.hideKeyboard()
-                    whatsAppHelper.shareLink(state.number, state.message)
+                    whatsAppManager.shareLink(state.number, state.message)
                 }
                 ChatState.InvalidNumber -> toast(R.string.error_invalid_number)
                 ChatState.InvalidData -> toast(R.string.error_no_data)
             }
         })
 
-        findNavController().currentBackStackEntry?.savedStateHandle?.let { handle ->
+        navController.currentBackStackEntry?.savedStateHandle?.let { handle ->
             handle.getLiveData<WhatsAppNumber>(EXTRA_HISTORY).observe(
                 viewLifecycleOwner
             ) { wan ->
@@ -155,8 +161,10 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
     }
 
     private fun openChatApp(mobile: String, message: String, app: App) {
-        if (whatsAppHelper.appInstalledOrNot(app.packageName)) whatsAppHelper.openChat(mobile, message,app.packageName)
-        else toast(getString(R.string.error_no_whatsapp,app.name))
+        if (whatsAppManager.appInstalledOrNot(app.packageName)) whatsAppManager.openChat(mobile,
+            message,
+            app.packageName)
+        else toast(getString(R.string.error_no_whatsapp, app.name))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -166,8 +174,8 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_about -> findNavController().navigate(R.id.action_chatFragment_to_aboutFragment)
-            R.id.action_feedback -> findNavController().navigate(R.id.action_chatFragment_to_feedbackFragment)
+            R.id.action_about -> navController.navigate(R.id.action_chatFragment_to_aboutFragment)
+            R.id.action_feedback -> navController.navigate(R.id.action_chatFragment_to_feedbackFragment)
             R.id.action_rate -> ratingsManager.rateApp()
         }
         return super.onOptionsItemSelected(item)

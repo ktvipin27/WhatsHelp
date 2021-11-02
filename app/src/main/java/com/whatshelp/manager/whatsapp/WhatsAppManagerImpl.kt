@@ -1,4 +1,4 @@
-package com.whatshelp.util
+package com.whatshelp.manager.whatsapp
 
 import android.content.Context
 import android.content.Intent
@@ -9,19 +9,19 @@ import androidx.core.app.ShareCompat
 import com.whatshelp.util.Constants.PACKAGE_WHATSAPP
 import com.whatshelp.util.Constants.PACKAGE_WHATSAPP_BUSINESS
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ActivityScoped
-import java.lang.StringBuilder
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by Vipin KT on 14/10/21
  */
-@ActivityScoped
-class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Context) {
+@Singleton
+class WhatsAppManagerImpl @Inject constructor(@ApplicationContext val context: Context) :
+    WhatsAppManager {
 
-    fun openChat(mobile: String, message: String, packageName: String) {
+    override fun openChat(mobile: String, message: String, packageName: String) {
 
-        val chatLink = getChatLink(mobile,message)
+        val chatLink = getChatLink(mobile, message)
 
         val uri = Uri.parse(chatLink)
         val sendIntent = Intent(Intent.ACTION_VIEW, uri).apply {
@@ -31,7 +31,7 @@ class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Contex
         context.startActivity(sendIntent)
     }
 
-    fun shareLink(mobile: String, message: String){
+    override fun shareLink(mobile: String, message: String) {
         val chatLink = getChatLink(mobile, message)
         val shareIntent = ShareCompat.IntentBuilder(context)
             .setType("text/plain")
@@ -55,11 +55,11 @@ class WhatsAppHelper @Inject constructor(@ApplicationContext val context: Contex
 
        }.toString().replace(" ","%20")
 
-    fun isWhatsAppInstalled() = appInstalledOrNot(PACKAGE_WHATSAPP)
+    override fun isWhatsAppInstalled() = appInstalledOrNot(PACKAGE_WHATSAPP)
 
-    fun isWhatsAppBusinessInstalled() = appInstalledOrNot(PACKAGE_WHATSAPP_BUSINESS)
+    override fun isWhatsAppBusinessInstalled() = appInstalledOrNot(PACKAGE_WHATSAPP_BUSINESS)
 
-    fun appInstalledOrNot(packageName: String): Boolean = try {
+    override fun appInstalledOrNot(packageName: String): Boolean = try {
         context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
         true
     } catch (e: PackageManager.NameNotFoundException) {

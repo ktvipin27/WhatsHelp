@@ -5,7 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.whatshelp.data.model.FeedbackType
-import com.whatshelp.task.WHTaskManager
+import com.whatshelp.manager.task.TaskManager
 import com.whatshelp.util.SingleLiveEvent
 import com.whatshelp.util.addSources
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedbackViewModel @Inject constructor(
-    private val whTaskManager: WHTaskManager,
+    private val taskManager: TaskManager,
 ) : ViewModel() {
     val state = SingleLiveEvent<FeedbackState>()
 
@@ -34,7 +34,7 @@ class FeedbackViewModel @Inject constructor(
     }
 
     fun submitFeedback() {
-        whTaskManager.submitFeedback(feedbackType.value!!, feedback.value!!)
+        taskManager.submitFeedback(feedbackType.value!!, feedback.value!!)
         state.value = FeedbackState.Submitted
     }
 }
