@@ -31,6 +31,7 @@
                 app:ccp_autoFormatNumber="true"
                 app:ccp_contentColor="?attr/colorOnSurface"
                 app:ccp_countryPreference="in,us"
+                app:ccp_rememberLastSelection="true"
                 app:layout_constraintBottom_toTopOf="@id/til_number"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

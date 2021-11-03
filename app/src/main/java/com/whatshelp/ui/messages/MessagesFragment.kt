@@ -83,7 +83,7 @@ class MessagesFragment : DBFragment<FragmentMessagesBinding, MessagesViewModel>(
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_delete_all, menu)
+        inflater.inflate(R.menu.menu_quick_messages, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
