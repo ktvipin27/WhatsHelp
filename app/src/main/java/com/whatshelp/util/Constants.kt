@@ -9,6 +9,7 @@ object Constants {
     const val EXTRA_MESSAGE = "message"
     const val EXTRA_ADD_MESSAGE = "is_new_message_added"
 
-    const val GITHUB_PROFILE_URL = "https://github.com/ktvipin27"
+    const val URL_DEVELOPER_PROFILE = "https://twitter.com/ktvipin27"
+
 
 }
