@@ -12,7 +12,7 @@
     <string name="action_ignore">Ignore</string>
     <string name="error_no_whatsapp">%s is not Installed</string>
     <string name="error_invalid_number">Enter a valid number</string>
-    <string name="error_no_data">Enter the data</string>
+    <string name="error_no_data">Enter either Mobile Number or Message</string>
     <string name="action_share_link">Share Link</string>
     <string name="error_no_message">Enter the message</string>
     <string name="action_cancel">Cancel</string>
@@ -27,10 +27,11 @@
     <string name="action_share">Share</string>
     <string name="action_feedback">Feedback</string>
     <string name="title_feedback">Feedback</string>
-    <string name="label_feedback_type">Type</string>
+    <string name="label_feedback_type">Select Feedback Type</string>
     <string name="label_feedback_type_suggestion">Suggestion</string>
+    <string name="label_feedback_feature_request">Feature Request</string>
     <string name="label_feedback_type_bug">Bug</string>
-    <string name="hint_feedback">Feedback</string>
+    <string name="hint_feedback">Enter your Feedback</string>
     <string name="action_submit">Submit</string>
     <string name="message_feedback_submit_success">Feedback submitted</string>
     <string name="action_rate_us">Rate Us</string>
@@ -38,4 +39,5 @@
     <string name="message_share_app">Hey! Found an awesome app for sending messages to unknown number in
         WhatsApp. Its free and easy to use. Download the WhatsHelp app now!
         https://play.google.com/store/apps/details?id=%s</string>
+    <string name="feedback_disclaimer">Your feedback matters, it helps us to serve you better.</string>
 </resources>

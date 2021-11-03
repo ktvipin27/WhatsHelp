@@ -19,6 +19,7 @@ class FeedbackViewModel @Inject constructor(
 
     val feedbackType = MutableLiveData<FeedbackType>()
     val feedback = MutableLiveData<String>()
+    val email = MutableLiveData<String>()
 
     val enableSubmission: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         addSources(feedbackType, feedback) {
