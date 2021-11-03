@@ -1,19 +1,23 @@
 # WhatsHelp
 
-_**WhatsHelp**_ is an android application which helps to start WhatsApp chat with non-saved numbers.
+_**[WhatsHelp](https://play.google.com/store/apps/details?id=com.whatshelp)**_ is an android
+application which helps to start WhatsApp chat with numbers that are not saved in contact list.
 
 
 ## Features
 
-* Option to open whatsapp chat for entered number.
+* Support for Whatsapp & WhatsApp Business.
 * Detects numbers copied from other applications.
-* Option to select number from history.
+* Generate WhatsApp chat link.
+* History support.
+* Dark mode
 * Auto select country while pasting number with country code.
 * Number formatting according to country.
+* Quick messages.
 
 ## Screenshots
 
-<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/1.png?raw=true" width="240" height="480" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/2.png?raw=true" width="240" height="480" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/3.png?raw=true" width="240" height="480" />
+<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L1.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L2.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L3.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L4.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L5.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L6.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L7.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L8.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L9.png?raw=true" width="120" height="240" />
 
 ## About this project
 
@@ -40,15 +44,17 @@ The codebase focuses on following key things:
   - [Room](https://developer.android.com/topic/libraries/architecture/room) - SQLite object mapping library.
   - [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) - WorkManager is an API that makes it easy to schedule deferrable, asynchronous tasks that are expected to run even if the app exits or the device restarts.
   - [Navigation Component](https://developer.android.com/guide/navigation/navigation-getting-started) Navigation refers to the interactions that allow users to navigate across, into, and back out from the different pieces of content within your app.
-    - [Safe args](https://developer.android.com/guide/navigation/navigation-pass-data#Safe-args) - Gradle plugin that provides type safety when navigating and passing data between destinations.
 - [Material Components](https://github.com/material-components/material-components-android) -  Help developers execute Material Design, enable a reliable development workflow to build beautiful and functional Android apps.
 - [Constraint Layout](https://developer.android.com/training/constraint-layout) - Allows to create large and complex layouts with a flat view hierarchy (no nested view groups).
 - [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android) - A dependency injection library for Android that reduces the boilerplate of doing manual dependency injection.
-- [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
 - [Gson](https://github.com/google/gson) - A Java library that can be used to convert Java Objects into their JSON representation annd vise versa.
 - [Firebase](https://firebase.google.com/) - Google's mobile platform that helps to quickly develop high-quality apps.
-  - [Firebase-Crashlytics](https://firebase.google.com/products/crashlytics/) - A lightweight, realtime crash reporter.
-  - [Firebase-Analytics](https://firebase.google.com/firebase/analytics) -  Google Analytics helps you measure the app metrics that matter to your business.
+  - [Firebase-Crashlytics](https://firebase.google.com/products/crashlytics/) - A lightweight,
+    realtime crash reporter.
+  - [Firebase-Analytics](https://firebase.google.com/firebase/analytics) - Google Analytics helps
+    you measure the app metrics that matter to your business.
+  - [Firebase-Realtime-Database](https://firebase.google.com/products/realtime-database) - A
+    cloud-hosted NoSQL database that lets you store and sync data between your users in realtime.
 - [CountryCodePicker](https://github.com/hbb20/CountryCodePickerProject) - Provides an easy way to search and select country or country phone code for the telephone number.
 - [libphonenumber-android](https://github.com/MichaelRocks/libphonenumber-android) - Android port of Google's [libphonenumber](https://github.com/googlei18n/libphonenumber).
 

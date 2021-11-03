@@ -12,4 +12,4 @@ Initial Release
 
 ### Screenshots
 
-<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/1.png?raw=true" width="240" height="480" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/2.png?raw=true" width="240" height="480" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/3.png?raw=true" width="240" height="480" />
+<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/1.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/2.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/3.png?raw=true" width="120" height="240" />

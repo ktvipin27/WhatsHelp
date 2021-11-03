@@ -1,3 +1,32 @@
+# v1.0.1 (November 3, 2021)
+
+### New Features
+
+* Support for WhatsApp Business.
+* Share chat link.
+* Quick message feature.
+* Share App.
+* Option to rate app.
+* Feedback page.
+* About page.
+
+### Improvements
+
+* Delete option in history.
+* Clear history option.
+* Bug fixes.
+* Dark mode improved.
+
+### Screenshots
+
+#### Light Mode
+
+<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L1.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L2.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L3.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L4.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L5.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L6.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L7.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L8.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L9.png?raw=true" width="120" height="240" />
+
+#### Dark Mode
+
+<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/D1.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/D2.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/D3.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/D4.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/D5.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/D6.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/D7.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/D8.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/D9.png?raw=true" width="120" height="240" />
+
 # v1.0.0 (October 26, 2021)
 
 Initial Release
@@ -12,4 +41,4 @@ Initial Release
 
 ### Screenshots
 
-<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/1.png?raw=true" width="240" height="480" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/2.png?raw=true" width="240" height="480" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/3.png?raw=true" width="240" height="480" />
+<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/1.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/2.png?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.0/3.png?raw=true" width="120" height="240" />
