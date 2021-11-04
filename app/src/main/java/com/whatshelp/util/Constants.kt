@@ -11,5 +11,9 @@ object Constants {
 
     const val URL_DEVELOPER_PROFILE = "https://twitter.com/ktvipin27"
 
+    object Preferences {
+        const val PREF_FILE_NAME = "com.whatshelp.WHATSHELP_PREFERENCES"
+        const val PREF_THEME = "app_theme"
+    }
 
 }

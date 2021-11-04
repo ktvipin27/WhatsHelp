@@ -4,12 +4,16 @@ import com.whatshelp.manager.analytics.AnalyticsManager
 import com.whatshelp.manager.analytics.AnalyticsManagerImpl
 import com.whatshelp.manager.app.AppManager
 import com.whatshelp.manager.app.AppManagerImpl
+import com.whatshelp.manager.pref.PreferencesManager
+import com.whatshelp.manager.pref.PreferencesManagerImpl
 import com.whatshelp.manager.rating.RatingsManager
 import com.whatshelp.manager.rating.RatingsManagerImpl
 import com.whatshelp.manager.share.ShareManager
 import com.whatshelp.manager.share.ShareManagerImpl
 import com.whatshelp.manager.task.TaskManager
 import com.whatshelp.manager.task.TaskManagerImpl
+import com.whatshelp.manager.theme.ThemeManager
+import com.whatshelp.manager.theme.ThemeManagerImpl
 import com.whatshelp.manager.whatsapp.WhatsAppManager
 import com.whatshelp.manager.whatsapp.WhatsAppManagerImpl
 import dagger.Binds
@@ -38,4 +42,10 @@ interface ManagerModule {
 
     @Binds
     fun bindAnalyticsManager(analyticsManager: AnalyticsManagerImpl): AnalyticsManager
+
+    @Binds
+    fun bindThemeManager(themeManager: ThemeManagerImpl): ThemeManager
+
+    @Binds
+    fun bindPreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager
 }

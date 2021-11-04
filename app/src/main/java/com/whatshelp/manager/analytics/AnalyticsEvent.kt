@@ -54,6 +54,8 @@ sealed class AnalyticsEvent(
 
     object ShareApp : AnalyticsEvent(Analytics.Event.SHARE_APP)
 
+    object ChangeTheme : AnalyticsEvent(Analytics.Event.THEME_APP)
+
     sealed class About(override val event: String) : AnalyticsEvent(event) {
         object Open : About(Analytics.Event.OPEN_ABOUT)
         object DeveloperConnect : About(Analytics.Event.CLICK_DEVELOPER_CONNECT)

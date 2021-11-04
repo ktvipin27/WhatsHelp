@@ -40,4 +40,8 @@
         WhatsApp. Its free and easy to use. Download the WhatsHelp app now!
         https://play.google.com/store/apps/details?id=%s</string>
     <string name="feedback_disclaimer">Your feedback matters, it helps us to serve you better.</string>
+    <string name="action_switch_theme">Theme</string>
+    <string name="action_theme_auto">System Default</string>
+    <string name="action_theme_dark">Dark</string>
+    <string name="action_theme_light">Light</string>
 </resources>

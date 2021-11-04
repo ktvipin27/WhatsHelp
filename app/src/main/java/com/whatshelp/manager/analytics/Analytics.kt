@@ -8,6 +8,7 @@ object Analytics {
     object Event {
         const val RATE_APP = "rate_app"
         const val SHARE_APP = "share_app"
+        const val THEME_APP = "theme_app"
 
         const val SHARE_LINK = "share_link"
         const val OPEN_WHATSAPP = "open_whatsapp"

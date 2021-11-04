@@ -18,6 +18,7 @@ import com.whatshelp.databinding.FragmentChatBinding
 import com.whatshelp.manager.analytics.AnalyticsEvent
 import com.whatshelp.manager.rating.RatingsManager
 import com.whatshelp.manager.share.ShareManager
+import com.whatshelp.manager.theme.ThemeManager
 import com.whatshelp.manager.whatsapp.WhatsAppManager
 import com.whatshelp.ui.MainViewModel
 import com.whatshelp.ui.base.DBFragment
@@ -51,6 +52,9 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
 
     @Inject
     lateinit var shareManager: ShareManager
+
+    @Inject
+    lateinit var themeManager: ThemeManager
 
     private val navController by lazy { findNavController() }
 
@@ -202,6 +206,18 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
             R.id.action_share -> {
                 shareManager.shareApp()
                 analyticsManager.logEvent(AnalyticsEvent.ShareApp)
+            }
+            R.id.action_theme_dark -> {
+                themeManager.setDarkTheme()
+                analyticsManager.logEvent(AnalyticsEvent.ChangeTheme)
+            }
+            R.id.action_theme_light -> {
+                themeManager.setLightTheme()
+                analyticsManager.logEvent(AnalyticsEvent.ChangeTheme)
+            }
+            R.id.action_theme_auto -> {
+                themeManager.setDefaultTheme()
+                analyticsManager.logEvent(AnalyticsEvent.ChangeTheme)
             }
         }
         return super.onOptionsItemSelected(item)
