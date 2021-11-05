@@ -12,9 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.whatshelp.R
 import com.whatshelp.databinding.FragmentCallLogsBinding
+import com.whatshelp.manager.app.AppManager
 import com.whatshelp.ui.base.DBFragment
+import com.whatshelp.ui.dialogs.PermissionDialog
 import com.whatshelp.util.Constants
-import com.whatshelp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,17 +29,32 @@ class CallLogsFragment : DBFragment<FragmentCallLogsBinding, CallLogsViewModel>(
     @Inject
     lateinit var callLogsAdapter: CallLogsAdapter
 
+    @Inject
+    lateinit var appManager: AppManager
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
                 viewModel.loadCallLogs()
             } else {
-                // Explain to the user that the feature is unavailable because the
-                // features requires a permission that the user has denied.
-                toast("Goto settings and grand permissions")
+                viewModel.setPermission(false)
             }
         }
+    private val permissionListener = object : PermissionDialog.PermissionDialogListener {
+        override fun onCancelled() {
+            viewModel.setPermission(false)
+        }
+
+        override fun onProceed(isRationale: Boolean) {
+            if (!isRationale)
+                requestPermissionLauncher.launch(
+                    Manifest.permission.READ_CALL_LOG)
+            else
+                appManager.openSettings()
+        }
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +76,21 @@ class CallLogsFragment : DBFragment<FragmentCallLogsBinding, CallLogsViewModel>(
         viewModel.callLogs.observe(viewLifecycleOwner, { callLog ->
             callLogsAdapter.submitList(callLog)
         })
-        checkPermissionAndLoadCallLog()
+
+        binding.btnPermissionOk.setOnClickListener { checkPermissionAndLoadCallLog() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_CALL_LOG
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            viewModel.setPermission(false)
+        } else {
+            viewModel.loadCallLogs()
+        }
     }
 
     private fun checkPermissionAndLoadCallLog() {
@@ -72,13 +102,12 @@ class CallLogsFragment : DBFragment<FragmentCallLogsBinding, CallLogsViewModel>(
                 viewModel.loadCallLogs()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.READ_CALL_LOG) -> {
-                // In an educational UI, explain to the user why your app requires this
-                // permission for a specific feature to behave as expected.
-                toast("Goto settings and grand permissions")
+                viewModel.setPermission(false)
+                PermissionDialog(permissionListener, true)
+                    .show(childFragmentManager, "")
             }
             else -> {
-                // You can directly ask for the permission.
-                // The registered ActivityResultCallback gets the result of this request.
+                viewModel.setPermission(false)
                 requestPermissionLauncher.launch(
                     Manifest.permission.READ_CALL_LOG)
             }

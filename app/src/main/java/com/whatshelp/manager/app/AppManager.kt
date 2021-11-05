@@ -7,4 +7,5 @@ interface AppManager {
     fun isAppInstalled(packageName: String): Boolean
     fun shareText(text: String)
     fun openApplication(uriString: String, packageName: String? = null)
+    fun openSettings()
 }

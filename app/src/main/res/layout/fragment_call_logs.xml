@@ -15,6 +15,79 @@
         android:layout_height="match_parent"
         tools:context=".ui.calllogs.CallLogsFragment">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_permission_disclaimer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_strock_with_rounded_corner"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:visibility="@{!viewModel.hasPermission}"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_permission_title"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/title_grant_call_log_permission"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/iv_permission_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_permission_description"
+                style="@style/TextAppearance.MaterialComponents.Body2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/description_grant_call_log_permission"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_permission_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_permission_title" />
+
+            <ImageView
+                android:id="@+id/iv_permission_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_baseline_call_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorPrimary"
+                tools:ignore="ContentDescription" />
+
+            <Button
+                android:id="@+id/btn_permission_ok"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/action_grant_permission"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_permission_description"
+                tools:ignore="RtlSymmetry" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_disclaimer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#807E7C7C"
+            android:padding="10dp"
+            android:text="@string/info_tap_to_select"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:visibility="@{viewModel.hasPermission &amp;&amp;viewModel.callLogs.size()!=0}" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_call_logs"
             android:layout_width="0dp"
@@ -23,8 +96,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:visibility="@{viewModel.callLogs.size()!=0}"
+            app:layout_constraintTop_toBottomOf="@id/tv_disclaimer"
+            app:visibility="@{viewModel.hasPermission &amp;&amp;viewModel.callLogs.size()!=0}"
             tools:listitem="@layout/item_call_log" />
 
         <TextView
@@ -36,6 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:visibility="@{viewModel.callLogs.size()==0}" />
+            app:visibility="@{viewModel.hasPermission &amp;&amp;viewModel.callLogs.size()==0}"
+            tools:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

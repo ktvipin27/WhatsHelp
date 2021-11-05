@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.provider.Settings
 import androidx.core.app.ShareCompat
 import com.whatshelp.R
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -43,5 +44,16 @@ class AppManagerImpl @Inject constructor(@ApplicationContext val context: Contex
         }
         context.startActivity(intent)
     }
+
+    override fun openSettings() {
+        val uri = Uri.fromParts("package", context.packageName, null)
+        val intent = Intent().apply {
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = uri
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        context.startActivity(intent)
+    }
+
 
 }

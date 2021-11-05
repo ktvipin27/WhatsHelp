@@ -15,7 +15,7 @@ import com.whatshelp.R
 import com.whatshelp.databinding.FragmentHistoryBinding
 import com.whatshelp.manager.analytics.AnalyticsEvent
 import com.whatshelp.ui.base.DBFragment
-import com.whatshelp.util.Constants.EXTRA_HISTORY
+import com.whatshelp.util.Constants.EXTRA_NUMBER
 import com.whatshelp.util.SwipeToDeleteCallback
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -36,8 +36,8 @@ class HistoryFragment : DBFragment<FragmentHistoryBinding, HistoryViewModel>() {
         historyAdapter.setItemClickListener { history ->
             findNavController().let { navController ->
                 analyticsManager.logEvent(AnalyticsEvent.History.Click)
-                navController.previousBackStackEntry?.savedStateHandle?.set(EXTRA_HISTORY,
-                    history.whatsAppNumber)
+                navController.previousBackStackEntry?.savedStateHandle?.set(EXTRA_NUMBER,
+                    history.whatsAppNumber.fullNumber)
                 navController.navigateUp()
             }
         }

@@ -22,7 +22,6 @@ import com.whatshelp.manager.theme.ThemeManager
 import com.whatshelp.manager.whatsapp.WhatsAppManager
 import com.whatshelp.ui.MainViewModel
 import com.whatshelp.ui.base.DBFragment
-import com.whatshelp.util.Constants.EXTRA_HISTORY
 import com.whatshelp.util.Constants.EXTRA_MESSAGE
 import com.whatshelp.util.Constants.EXTRA_NUMBER
 import com.whatshelp.util.NumberUtil
@@ -125,13 +124,6 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
         })
 
         navController.currentBackStackEntry?.savedStateHandle?.let { handle ->
-            handle.getLiveData<WhatsAppNumber>(EXTRA_HISTORY).observe(
-                viewLifecycleOwner
-            ) { wan ->
-                handle.remove<WhatsAppNumber>(EXTRA_HISTORY)
-                binding.ccp.setCountryForPhoneCode(wan.code ?: 0)
-                binding.etNumber.setText(wan.number)
-            }
             handle.getLiveData<String>(EXTRA_MESSAGE).observe(
                 viewLifecycleOwner
             ) { message ->
@@ -142,10 +134,8 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
                 viewLifecycleOwner
             ) { number ->
                 handle.remove<String>(EXTRA_NUMBER)
-                if (number.startsWith("+"))
-                    binding.ccp.fullNumber = number
-                else
-                    binding.etNumber.setText(number)
+                if (number.startsWith("+")) binding.ccp.fullNumber = number
+                else binding.etNumber.setText(number)
             }
         }
 

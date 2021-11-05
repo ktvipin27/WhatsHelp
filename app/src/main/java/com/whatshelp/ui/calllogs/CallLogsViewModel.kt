@@ -15,9 +15,12 @@ import javax.inject.Inject
 class CallLogsViewModel @Inject constructor(private val callLogManager: CallLogManager) :
     ViewModel() {
 
+    val hasPermission = MutableLiveData<Boolean>(false)
+
     val callLogs = MutableLiveData<List<CallLog>>(emptyList())
 
     internal fun loadCallLogs() {
+        setPermission(true)
         viewModelScope.launch {
             callLogManager
                 .getCallLogs()
@@ -27,5 +30,9 @@ class CallLogsViewModel @Inject constructor(private val callLogManager: CallLogM
                     }
                 }
         }
+    }
+
+    fun setPermission(hasPermission: Boolean) {
+        this.hasPermission.value = hasPermission
     }
 }
