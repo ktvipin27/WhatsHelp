@@ -45,4 +45,6 @@
     <string name="action_theme_dark">Dark</string>
     <string name="action_theme_light">Light</string>
     <string name="title_call_logs">Call Logs</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

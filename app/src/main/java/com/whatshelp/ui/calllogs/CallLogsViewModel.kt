@@ -17,7 +17,7 @@ class CallLogsViewModel @Inject constructor(private val callLogManager: CallLogM
 
     val callLogs = MutableLiveData<List<CallLog>>(emptyList())
 
-    init {
+    internal fun loadCallLogs() {
         viewModelScope.launch {
             callLogManager
                 .getCallLogs()

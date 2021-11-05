@@ -11,8 +11,8 @@
         android:label="@string/app_name"
         tools:layout="@layout/fragment_chat">
         <action
-            android:id="@+id/action_chatFragment_to_historyFragment"
-            app:destination="@id/historyFragment"
+            android:id="@+id/action_chatFragment_to_historyContainerFragment"
+            app:destination="@id/historyContainerFragment"
             app:enterAnim="@anim/slide_screen_from_right"
             app:exitAnim="@anim/slide_screen_to_left"
             app:popEnterAnim="@anim/slide_screen_from_left"
@@ -85,5 +85,11 @@
         android:name="com.whatshelp.ui.calllogs.CallLogsFragment"
         android:label="@string/title_call_logs"
         tools:layout="@layout/fragment_call_logs" />
+
+    <fragment
+        android:id="@+id/historyContainerFragment"
+        android:name="com.whatshelp.ui.historycontainer.HistoryContainerFragment"
+        android:label="@string/title_history"
+        tools:layout="@layout/fragment_history_container" />
 
 </navigation>

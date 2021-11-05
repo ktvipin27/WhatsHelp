@@ -65,9 +65,8 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
         setHasOptionsMenu(true)
 
         binding.tilNumber.setEndIconOnClickListener {
-            /*navController.navigate(R.id.action_chatFragment_to_historyFragment)
-            analyticsManager.logEvent(AnalyticsEvent.History.Open)*/
-            navController.navigate(R.id.action_chatFragment_to_callLogsFragment)
+            analyticsManager.logEvent(AnalyticsEvent.History.Open)
+            navController.navigate(R.id.action_chatFragment_to_historyContainerFragment)
         }
 
         binding.tilMessage.setEndIconOnClickListener {
@@ -143,7 +142,10 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
                 viewLifecycleOwner
             ) { number ->
                 handle.remove<String>(EXTRA_NUMBER)
-                binding.ccp.fullNumber = number
+                if (number.startsWith("+"))
+                    binding.ccp.fullNumber = number
+                else
+                    binding.etNumber.setText(number)
             }
         }
 
