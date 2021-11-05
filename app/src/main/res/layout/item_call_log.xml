@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="call"
+            type="com.whatshelp.data.model.CallLog" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="?selectableItemBackground"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@{call.name}"
+            app:layout_constraintBottom_toTopOf="@id/tv_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Vipin" />
+
+        <ImageView
+            android:id="@+id/iv_call_type"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            app:imageType="@{call.type}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            tools:src="@drawable/ic_baseline_call_missed_24" />
+
+        <TextView
+            android:id="@+id/tv_number"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:gravity="center_vertical"
+            android:text='@{call.number}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_date"
+            app:layout_constraintStart_toEndOf="@id/iv_call_type"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            tools:text="8129123456" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text='@{", "+call.date}'
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_number"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            tools:text="8129123456" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

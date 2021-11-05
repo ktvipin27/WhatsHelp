@@ -24,6 +24,7 @@ import com.whatshelp.ui.MainViewModel
 import com.whatshelp.ui.base.DBFragment
 import com.whatshelp.util.Constants.EXTRA_HISTORY
 import com.whatshelp.util.Constants.EXTRA_MESSAGE
+import com.whatshelp.util.Constants.EXTRA_NUMBER
 import com.whatshelp.util.NumberUtil
 import com.whatshelp.util.hideKeyboard
 import com.whatshelp.util.toast
@@ -64,8 +65,9 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
         setHasOptionsMenu(true)
 
         binding.tilNumber.setEndIconOnClickListener {
-            navController.navigate(R.id.action_chatFragment_to_historyFragment)
-            analyticsManager.logEvent(AnalyticsEvent.History.Open)
+            /*navController.navigate(R.id.action_chatFragment_to_historyFragment)
+            analyticsManager.logEvent(AnalyticsEvent.History.Open)*/
+            navController.navigate(R.id.action_chatFragment_to_callLogsFragment)
         }
 
         binding.tilMessage.setEndIconOnClickListener {
@@ -136,6 +138,12 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
             ) { message ->
                 handle.remove<String>(EXTRA_MESSAGE)
                 binding.etMessage.setText(message)
+            }
+            handle.getLiveData<String>(EXTRA_NUMBER).observe(
+                viewLifecycleOwner
+            ) { number ->
+                handle.remove<String>(EXTRA_NUMBER)
+                binding.ccp.fullNumber = number
             }
         }
 

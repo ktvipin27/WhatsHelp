@@ -1,8 +1,10 @@
 package com.whatshelp.util
 
 import android.content.Context
+import android.provider.CallLog.Calls.*
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
@@ -11,6 +13,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import androidx.work.Data
 import com.google.android.gms.tasks.Task
+import com.whatshelp.R
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
@@ -67,3 +70,21 @@ suspend fun Task<Void>.complete(): Boolean =
             }
         }
     }
+
+/**
+ * Binding adapter used for displaying call history log on screen.
+ */
+@BindingAdapter("imageType")
+fun bindImageType(imgView: ImageView, imgType: Int?) {
+    when (imgType) {
+        OUTGOING_TYPE -> {
+            imgView.setImageResource(R.drawable.ic_baseline_call_made_24)
+        }
+        in arrayOf(INCOMING_TYPE, REJECTED_TYPE) -> {
+            imgView.setImageResource(R.drawable.ic_baseline_call_received_24)
+        }
+        MISSED_TYPE -> {
+            imgView.setImageResource(R.drawable.ic_baseline_call_missed_24)
+        }
+    }
+}

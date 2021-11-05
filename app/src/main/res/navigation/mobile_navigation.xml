@@ -38,6 +38,13 @@
             app:exitAnim="@anim/slide_screen_to_left"
             app:popEnterAnim="@anim/slide_screen_from_left"
             app:popExitAnim="@anim/slide_screen_to_right" />
+        <action
+            android:id="@+id/action_chatFragment_to_callLogsFragment"
+            app:destination="@id/callLogsFragment"
+            app:enterAnim="@anim/slide_screen_from_right"
+            app:exitAnim="@anim/slide_screen_to_left"
+            app:popEnterAnim="@anim/slide_screen_from_left"
+            app:popExitAnim="@anim/slide_screen_to_right" />
     </fragment>
 
     <fragment
@@ -72,5 +79,11 @@
         android:name="com.whatshelp.ui.feedback.FeedbackFragment"
         android:label="@string/title_feedback"
         tools:layout="@layout/fragment_feedback" />
+
+    <fragment
+        android:id="@+id/callLogsFragment"
+        android:name="com.whatshelp.ui.calllogs.CallLogsFragment"
+        android:label="@string/title_call_logs"
+        tools:layout="@layout/fragment_call_logs" />
 
 </navigation>

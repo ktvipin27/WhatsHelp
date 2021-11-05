@@ -4,6 +4,8 @@ import com.whatshelp.manager.analytics.AnalyticsManager
 import com.whatshelp.manager.analytics.AnalyticsManagerImpl
 import com.whatshelp.manager.app.AppManager
 import com.whatshelp.manager.app.AppManagerImpl
+import com.whatshelp.manager.calllog.CallLogManager
+import com.whatshelp.manager.calllog.CallLogManagerImpl
 import com.whatshelp.manager.pref.PreferencesManager
 import com.whatshelp.manager.pref.PreferencesManagerImpl
 import com.whatshelp.manager.rating.RatingsManager
@@ -48,4 +50,7 @@ interface ManagerModule {
 
     @Binds
     fun bindPreferencesManager(preferencesManager: PreferencesManagerImpl): PreferencesManager
+
+    @Binds
+    fun bindCallLogManager(callLogManager: CallLogManagerImpl): CallLogManager
 }
