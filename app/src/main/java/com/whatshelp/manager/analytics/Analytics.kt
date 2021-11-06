@@ -19,7 +19,8 @@ object Analytics {
         const val USE_COPIED_NUMBER = "use_copied_number"
         const val IGNORE_COPIED_NUMBER = "ignore_copied_number"
 
-        const val OPEN_HISTORY = "open_history"
+        const val OPEN_NUMBER_PICKER = "open_logs_and_history"
+
         const val SELECT_HISTORY = "select_history"
         const val CLEAR_HISTORY = "clear_history"
         const val DELETE_HISTORY = "delete_history"
@@ -42,6 +43,10 @@ object Analytics {
 
         const val APP_UPDATE_AVAILABLE = "app_update_available"
         const val APP_UPDATE_DOWNLOADED = "app_update_downloaded"
+
+        const val CL_SELECT = "select_call_log"
+        const val CL_OPEN_PERMISSION_SETTINGS = "open_call_log_permission_settings"
+        const val CL_SHOW_PERMISSION_RATIONALE = "show_call_log_permission_rationale"
     }
 
     object Param {

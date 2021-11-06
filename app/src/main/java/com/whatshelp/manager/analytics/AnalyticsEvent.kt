@@ -27,7 +27,6 @@ sealed class AnalyticsEvent(
     }
 
     sealed class History(override val event: String) : AnalyticsEvent(event) {
-        object Open : History(Analytics.Event.OPEN_HISTORY)
         object Delete : History(Analytics.Event.DELETE_HISTORY)
         object Clear : History(Analytics.Event.CLEAR_HISTORY)
         object Click : History(Analytics.Event.SELECT_HISTORY)
@@ -65,4 +64,12 @@ sealed class AnalyticsEvent(
         object AppUpdateAvailable : About(Analytics.Event.APP_UPDATE_AVAILABLE)
         object AppUpdateDownloaded : About(Analytics.Event.APP_UPDATE_DOWNLOADED)
     }
+
+    sealed class CallLog(override val event: String) : AnalyticsEvent(event) {
+        object OpenPermissionSettings : CallLog(Analytics.Event.CL_OPEN_PERMISSION_SETTINGS)
+        object ShowPermissionRationale : CallLog(Analytics.Event.CL_SHOW_PERMISSION_RATIONALE)
+        object Select : CallLog(Analytics.Event.CL_SELECT)
+    }
+
+    object OpenLogsAndHistory : AnalyticsEvent(Analytics.Event.OPEN_NUMBER_PICKER)
 }

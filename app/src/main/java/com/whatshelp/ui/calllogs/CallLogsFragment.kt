@@ -12,6 +12,7 @@ import com.markodevcic.peko.PermissionResult
 import com.markodevcic.peko.requestPermissionsAsync
 import com.whatshelp.R
 import com.whatshelp.databinding.FragmentCallLogsBinding
+import com.whatshelp.manager.analytics.AnalyticsEvent
 import com.whatshelp.manager.app.AppManager
 import com.whatshelp.ui.base.DBFragment
 import com.whatshelp.ui.dialogs.PermissionDialog
@@ -49,6 +50,8 @@ class CallLogsFragment : DBFragment<FragmentCallLogsBinding, CallLogsViewModel>(
                     ?.savedStateHandle
                     ?.set(Constants.EXTRA_NUMBER, callLog.number)
                 navController.navigateUp()
+            }.also {
+                analyticsManager.logEvent(AnalyticsEvent.CallLog.Select)
             }
         }
 
@@ -62,7 +65,10 @@ class CallLogsFragment : DBFragment<FragmentCallLogsBinding, CallLogsViewModel>(
         })
 
         binding.btnPermissionAction.setOnClickListener {
-            appManager.openSettings().also { isSettingsOpened = true }
+            appManager.openSettings().also {
+                isSettingsOpened = true
+                analyticsManager.logEvent(AnalyticsEvent.CallLog.OpenPermissionSettings)
+            }
         }
 
         checkPermission()
@@ -75,6 +81,7 @@ class CallLogsFragment : DBFragment<FragmentCallLogsBinding, CallLogsViewModel>(
                 is PermissionResult.Denied.NeedsRationale -> {
                     permissionDialog
                         .show(childFragmentManager, "")
+                    analyticsManager.logEvent(AnalyticsEvent.CallLog.ShowPermissionRationale)
                 }
                 else -> viewModel.setPermissionGranted(false)
             }

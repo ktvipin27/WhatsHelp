@@ -37,7 +37,7 @@ class AboutFragment : VBFragment<FragmentAboutBinding, AboutViewModel>() {
             SpannableString(getString(R.string.app_copyright, currentYear, currentYear + 1))
         string.setSpan(URLSpanWithListener(URL_DEVELOPER_PROFILE) {
             analyticsManager.logEvent(AnalyticsEvent.About.DeveloperConnect)
-        }, 12, string.length,
+        }, string.length - 8, string.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         binding.run {
