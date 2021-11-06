@@ -8,13 +8,14 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.whatshelp.R
 import com.whatshelp.databinding.DialogPermissionBinding
+import com.whatshelp.util.toast
 
 /**
  * Created by Vipin KT on 05/11/21
  */
 class PermissionDialog(
-    private val listener: PermissionDialogListener,
-    private var isSettings: Boolean,
+    private val successListener: () -> Unit,
+    private val dismissListener: () -> Unit,
 ) : DialogFragment() {
 
     private var _binding: DialogPermissionBinding? = null
@@ -23,21 +24,15 @@ class PermissionDialog(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogPermissionBinding.inflate(LayoutInflater.from(context))
         binding.btnNegative.setOnClickListener {
-            listener.onCancelled()
+            dismissListener()
             dismiss()
         }
         binding.btnPositive.setOnClickListener {
-            listener.onProceed(isSettings)
+            successListener()
             dismiss()
         }
         binding.ivIcon.setImageResource(R.drawable.ic_baseline_call_24)
         val s = StringBuilder(getString(R.string.message_permission_call_history))
-        if (isSettings) {
-            s.append("\n\n${getString(R.string.message_permission_call_history_rationale)}")
-            binding.btnPositive.text = getString(R.string.action_permission_dialog_settings)
-        } else {
-            binding.btnPositive.text = getString(R.string.action_permission_dialog_continue)
-        }
         binding.tvContent.text = s
         isCancelable = false
         return MaterialAlertDialogBuilder(requireActivity())
@@ -51,12 +46,13 @@ class PermissionDialog(
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
-        super.show(manager, tag)
-        dialog?.window?.setLayout(100, 100)
-    }
+        try {
+            val ft = manager.beginTransaction()
+            ft.add(this, tag)
+            ft.commitAllowingStateLoss()
+        } catch (ignored: IllegalStateException) {
+            toast(getString(R.string.message_something_went_wrong))
+        }
 
-    interface PermissionDialogListener {
-        fun onCancelled()
-        fun onProceed(isSettings: Boolean)
     }
 }

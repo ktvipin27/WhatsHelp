@@ -1,5 +1,6 @@
 package com.whatshelp.ui.calllogs
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,24 +16,29 @@ import javax.inject.Inject
 class CallLogsViewModel @Inject constructor(private val callLogManager: CallLogManager) :
     ViewModel() {
 
-    val hasPermission = MutableLiveData(false)
+    private val _showPermissionCard = MutableLiveData(false)
+    val showPermissionCard: LiveData<Boolean>
+        get() = _showPermissionCard
 
-    val callLogs = MutableLiveData<List<CallLog>>(emptyList())
+    private val _callLogs = MutableLiveData<List<CallLog>>(emptyList())
+    val callLogs: LiveData<List<CallLog>>
+        get() = _callLogs
 
-    internal fun loadCallLogs() {
-        setPermission(true)
+    private fun loadCallLogs() {
         viewModelScope.launch {
             callLogManager
                 .getCallLogs()
                 .let {
                     withContext(Dispatchers.Main) {
-                        callLogs.value = it
+                        _callLogs.value = it
                     }
                 }
         }
     }
 
-    fun setPermission(hasPermission: Boolean) {
-        this.hasPermission.value = hasPermission
+    fun setPermissionGranted(isGranted: Boolean) {
+        this._showPermissionCard.value = !isGranted
+        if (isGranted) loadCallLogs()
+        else _callLogs.value = emptyList()
     }
 }
