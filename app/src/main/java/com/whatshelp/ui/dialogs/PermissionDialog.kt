@@ -31,7 +31,7 @@ class PermissionDialog(
             successListener()
             dismiss()
         }
-        binding.ivIcon.setImageResource(R.drawable.ic_baseline_call_24)
+        binding.ivIcon.setImageResource(R.drawable.ic_call_log)
         val s = StringBuilder(getString(R.string.message_permission_call_history))
         binding.tvContent.text = s
         isCancelable = false
