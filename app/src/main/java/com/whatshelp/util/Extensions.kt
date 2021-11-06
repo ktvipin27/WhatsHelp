@@ -3,10 +3,13 @@ package com.whatshelp.util
 import android.content.Context
 import android.content.pm.PackageManager
 import android.provider.CallLog.Calls.*
+import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
@@ -93,3 +96,8 @@ fun bindImageType(imgView: ImageView, imgType: Int?) {
 
 fun Context.hasPermission(permission: String): Boolean =
     ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+
+@ColorInt
+fun Context.themeColor(@AttrRes attrRes: Int): Int = TypedValue()
+    .apply { theme.resolveAttribute(attrRes, this, true) }
+    .data

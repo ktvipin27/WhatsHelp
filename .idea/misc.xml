@@ -17,11 +17,14 @@
         <entry key="app/src/main/res/drawable/ic_baseline_message_24.xml" value="0.35555555555555557" />
         <entry key="app/src/main/res/drawable/ic_baseline_quickreply_24.xml" value="0.36574074074074076" />
         <entry key="app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.3101851851851852" />
+        <entry key="app/src/main/res/drawable/ic_call_history.xml" value="0.3685185185185185" />
+        <entry key="app/src/main/res/drawable/ic_call_log.xml" value="0.3685185185185185" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.36574074074074076" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.36574074074074076" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.36574074074074076" />
         <entry key="app/src/main/res/drawable/ic_logo.xml" value="0.3435185185185185" />
         <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.36574074074074076" />
+        <entry key="app/src/main/res/drawable/ic_noun_call_history_4184151.xml" value="0.3685185185185185" />
         <entry key="app/src/main/res/drawable/ic_whatsapp.xml" value="0.362962962962963" />
         <entry key="app/src/main/res/drawable/ic_whatsapp_business.xml" value="0.362962962962963" />
         <entry key="app/src/main/res/drawable/selector_stroke_color.xml" value="0.362962962962963" />

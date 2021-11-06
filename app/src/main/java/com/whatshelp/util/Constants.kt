@@ -5,7 +5,6 @@ package com.whatshelp.util
  */
 object Constants {
     const val DB_NAME = "whats_help_db"
-    const val EXTRA_HISTORY = "history"
     const val EXTRA_MESSAGE = "message"
     const val EXTRA_NUMBER = "number"
     const val EXTRA_ADD_MESSAGE = "is_new_message_added"
@@ -15,6 +14,9 @@ object Constants {
     object Preferences {
         const val PREF_FILE_NAME = "com.whatshelp.WHATSHELP_PREFERENCES"
         const val PREF_THEME = "app_theme"
+        const val PREF_SHOWCASE_CHAT_NUMBER = "showcase_chat_number"
+        const val PREF_SHOWCASE_CHAT_MESSAGE = "showcase_chat_message"
+        const val PREF_SHOWCASE_CHAT_APP = "showcase_chat_app_toggle"
     }
 
 }

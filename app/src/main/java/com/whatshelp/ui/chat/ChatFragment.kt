@@ -1,6 +1,7 @@
 package com.whatshelp.ui.chat
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -10,6 +11,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.github.ktvipin27.showcasebubble.BubbleShowCase
+import com.github.ktvipin27.showcasebubble.BubbleShowCaseBuilder
+import com.github.ktvipin27.showcasebubble.BubbleShowCaseListener
+import com.github.ktvipin27.showcasebubble.BubbleShowCaseSequence
 import com.whatshelp.R
 import com.whatshelp.data.model.WhatsApp
 import com.whatshelp.data.model.WhatsAppBusiness
@@ -24,8 +29,12 @@ import com.whatshelp.ui.MainViewModel
 import com.whatshelp.ui.base.DBFragment
 import com.whatshelp.util.Constants.EXTRA_MESSAGE
 import com.whatshelp.util.Constants.EXTRA_NUMBER
+import com.whatshelp.util.Constants.Preferences.PREF_SHOWCASE_CHAT_APP
+import com.whatshelp.util.Constants.Preferences.PREF_SHOWCASE_CHAT_MESSAGE
+import com.whatshelp.util.Constants.Preferences.PREF_SHOWCASE_CHAT_NUMBER
 import com.whatshelp.util.NumberUtil
 import com.whatshelp.util.hideKeyboard
+import com.whatshelp.util.themeColor
 import com.whatshelp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -95,6 +104,70 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
         }
 
         initObservers()
+
+        initShowCase()
+    }
+
+    inner class ShowCaseListener(val dismissListener: () -> Unit) : BubbleShowCaseListener {
+        override fun onBackgroundDimClick(bubbleShowCase: BubbleShowCase) {
+            bubbleShowCase.dismiss()
+            dismissListener()
+        }
+
+        override fun onBubbleClick(bubbleShowCase: BubbleShowCase) {
+            bubbleShowCase.dismiss()
+            dismissListener()
+        }
+
+        override fun onCloseActionImageClick(bubbleShowCase: BubbleShowCase) {
+            bubbleShowCase.dismiss()
+            dismissListener()
+        }
+
+        override fun onTargetClick(bubbleShowCase: BubbleShowCase) {
+            bubbleShowCase.dismiss()
+            dismissListener()
+        }
+
+    }
+
+    private fun initShowCase() {
+
+        val showCaseForNumber = BubbleShowCaseBuilder(requireActivity())
+            .title(getString(R.string.showcase_title_chat_number))
+            .description(getString(R.string.showcase_description_chat_number))
+            .arrowPosition(BubbleShowCase.ArrowPosition.TOP)
+            .backgroundColor(requireContext().themeColor(R.attr.colorPrimary))
+            .textColor(Color.WHITE)
+            .showOnce(PREF_SHOWCASE_CHAT_NUMBER)
+            .listener(ShowCaseListener { })
+            .targetView(binding.tilNumber)
+
+        val showCaseForMessage = BubbleShowCaseBuilder(requireActivity())
+            .title(getString(R.string.showcase_title_chat_message))
+            .description(getString(R.string.showcase_description_chat_message))
+            .arrowPosition(BubbleShowCase.ArrowPosition.TOP)
+            .backgroundColor(requireContext().themeColor(R.attr.colorPrimary))
+            .textColor(Color.WHITE)
+            .showOnce(PREF_SHOWCASE_CHAT_MESSAGE)
+            .listener(ShowCaseListener { })
+            .targetView(binding.tilMessage)
+
+        val showCaseForAppToggle = BubbleShowCaseBuilder(requireActivity())
+            .title(getString(R.string.showcase_title_chat_app_change))
+            .description(getString(R.string.showcase_description_chat_app_change))
+            .arrowPosition(BubbleShowCase.ArrowPosition.TOP)
+            .backgroundColor(requireContext().themeColor(R.attr.colorPrimary))
+            .textColor(Color.WHITE)
+            .showOnce(PREF_SHOWCASE_CHAT_APP)
+            .listener(ShowCaseListener { })
+            .targetView(binding.btg)
+
+        BubbleShowCaseSequence()
+            .addShowCase(showCaseForNumber)
+            .addShowCase(showCaseForMessage)
+            .addShowCase(showCaseForAppToggle)
+            .show()
     }
 
     private fun onClickAction(action: ChatAction) {
