@@ -7,17 +7,18 @@ application which helps to start WhatsApp chat with numbers that are not saved i
 ## Features
 
 * Support for Whatsapp & WhatsApp Business.
+* Option to select number from call history.
 * Detects numbers copied from other applications.
 * Generate WhatsApp chat link.
-* History support.
-* Dark mode
+* Saves recently opened numbers for reusing.
+* Dark theme support.
 * Auto select country while pasting number with country code.
 * Number formatting according to country.
-* Quick messages.
+* Pre written messages for sending Quick messages.
 
 ## Screenshots
 
-<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L1.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L2.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L3.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L4.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L5.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L6.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L7.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L8.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L9.webp?raw=true" width="120" height="240" />
+<img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.2/2.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L2.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.2/8.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.2/9.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L4.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L5.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L6.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.2/3.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L8.webp?raw=true" width="120" height="240" /> <img src="https://github.com/ktvipin27/WhatsHelp/blob/master/screenshots/v1.0.1/L9.webp?raw=true" width="120" height="240" />
 
 ## About this project
 
@@ -56,7 +57,9 @@ The codebase focuses on following key things:
   - [Firebase-Realtime-Database](https://firebase.google.com/products/realtime-database) - A
     cloud-hosted NoSQL database that lets you store and sync data between your users in realtime.
 - [CountryCodePicker](https://github.com/hbb20/CountryCodePickerProject) - Provides an easy way to search and select country or country phone code for the telephone number.
-- [libphonenumber-android](https://github.com/MichaelRocks/libphonenumber-android) - Android port of Google's [libphonenumber](https://github.com/googlei18n/libphonenumber).
+- [libphonenumber-android](https://github.com/MichaelRocks/libphonenumber-android) - Android port of
+  Google's [libphonenumber](https://github.com/googlei18n/libphonenumber).
+- [Peko](https://github.com/deva666/Peko) - Android Permissions with Kotlin Coroutines or LiveData.
 
 ## License
 
