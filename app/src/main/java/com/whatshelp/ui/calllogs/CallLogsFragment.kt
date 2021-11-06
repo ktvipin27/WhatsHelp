@@ -1,12 +1,10 @@
 package com.whatshelp.ui.calllogs
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,6 +14,7 @@ import com.whatshelp.manager.app.AppManager
 import com.whatshelp.ui.base.DBFragment
 import com.whatshelp.ui.dialogs.PermissionDialog
 import com.whatshelp.util.Constants
+import com.whatshelp.util.hasPermission
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -35,25 +34,20 @@ class CallLogsFragment : DBFragment<FragmentCallLogsBinding, CallLogsViewModel>(
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
-            if (isGranted) {
-                viewModel.loadCallLogs()
-            } else {
-                viewModel.setPermission(false)
-            }
+            onPermissionResult(isGranted)
         }
+
     private val permissionListener = object : PermissionDialog.PermissionDialogListener {
         override fun onCancelled() {
             viewModel.setPermission(false)
         }
 
-        override fun onProceed(isRationale: Boolean) {
-            if (!isRationale)
-                requestPermissionLauncher.launch(
-                    Manifest.permission.READ_CALL_LOG)
-            else
+        override fun onProceed(isSettings: Boolean) {
+            if (isSettings)
                 appManager.openSettings()
+            else
+                requestPermissionLauncher.launch(Manifest.permission.READ_CALL_LOG)
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,41 +71,42 @@ class CallLogsFragment : DBFragment<FragmentCallLogsBinding, CallLogsViewModel>(
             callLogsAdapter.submitList(callLog)
         })
 
-        binding.btnPermissionOk.setOnClickListener { checkPermissionAndLoadCallLog() }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_CALL_LOG
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            viewModel.setPermission(false)
-        } else {
-            viewModel.loadCallLogs()
+        binding.btnPermissionOk.setOnClickListener {
+            requestPermissionLauncher.launch(Manifest.permission.READ_CALL_LOG)
         }
+
     }
 
-    private fun checkPermissionAndLoadCallLog() {
+    private fun onPermissionResult(isGranted: Boolean) {
         when {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_CALL_LOG
-            ) == PackageManager.PERMISSION_GRANTED -> {
+            isGranted -> {
                 viewModel.loadCallLogs()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.READ_CALL_LOG) -> {
                 viewModel.setPermission(false)
-                PermissionDialog(permissionListener, true)
+                PermissionDialog(permissionListener, false)
                     .show(childFragmentManager, "")
             }
             else -> {
                 viewModel.setPermission(false)
-                requestPermissionLauncher.launch(
-                    Manifest.permission.READ_CALL_LOG)
+                PermissionDialog(permissionListener, true)
+                    .show(childFragmentManager, "")
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (requireContext().hasPermission(Manifest.permission.READ_CALL_LOG)) {
+            viewModel.loadCallLogs()
+        } else {
+            viewModel.setPermission(false)
+        }
+    }
+
+    override fun onDestroyView() {
+        requestPermissionLauncher.unregister()
+        super.onDestroyView()
     }
 
 }

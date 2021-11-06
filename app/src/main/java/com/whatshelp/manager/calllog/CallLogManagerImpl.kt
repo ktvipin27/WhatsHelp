@@ -30,31 +30,35 @@ class CallLogManagerImpl @Inject constructor(@ApplicationContext val context: Co
             )
 
             val callLogList = mutableListOf<CallLog>()
-            context.contentResolver.query(callUri,
-                projection,
-                null,
-                null,
-                strOrder)
-                ?.let { cursor ->
-                    cursor.moveToFirst()
-                    while (!cursor.isAfterLast) {
+            try {
+                context.contentResolver.query(callUri,
+                    projection,
+                    null,
+                    null,
+                    strOrder)
+                    ?.let { cursor ->
+                        cursor.moveToFirst()
+                        while (!cursor.isAfterLast) {
 
-                        val number =
-                            cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER))
-                        val name =
-                            cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME))
-                        val millisDate =
-                            cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE))
-                        val callType =
-                            cursor.getInt(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE))
+                            val number =
+                                cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.NUMBER))
+                            val name =
+                                cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.CACHED_NAME))
+                            val millisDate =
+                                cursor.getString(cursor.getColumnIndex(android.provider.CallLog.Calls.DATE))
+                            val callType =
+                                cursor.getInt(cursor.getColumnIndex(android.provider.CallLog.Calls.TYPE))
 
-                        val date = millisDate.toLong().getDateAgo()
+                            val date = millisDate.toLong().getDateAgo()
 
-                        callLogList.add(CallLog(number, name ?: "<unknown>", date, callType))
-                        cursor.moveToNext()
+                            callLogList.add(CallLog(number, name ?: "<unknown>", date, callType))
+                            cursor.moveToNext()
+                        }
+                        cursor.close()
                     }
-                    cursor.close()
-                }
+            } catch (e: Exception) {
+
+            }
             callLogList.toList()
         }
 

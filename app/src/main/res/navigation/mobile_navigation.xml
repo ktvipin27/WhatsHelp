@@ -89,7 +89,7 @@
     <fragment
         android:id="@+id/historyContainerFragment"
         android:name="com.whatshelp.ui.historycontainer.HistoryContainerFragment"
-        android:label="@string/title_history"
+        android:label="@string/title_history_container"
         tools:layout="@layout/fragment_history_container" />
 
 </navigation>

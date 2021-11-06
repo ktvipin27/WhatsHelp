@@ -15,7 +15,7 @@ import javax.inject.Inject
 class CallLogsViewModel @Inject constructor(private val callLogManager: CallLogManager) :
     ViewModel() {
 
-    val hasPermission = MutableLiveData<Boolean>(false)
+    val hasPermission = MutableLiveData(false)
 
     val callLogs = MutableLiveData<List<CallLog>>(emptyList())
 

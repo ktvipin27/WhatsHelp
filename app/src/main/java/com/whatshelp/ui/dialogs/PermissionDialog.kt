@@ -14,7 +14,7 @@ import com.whatshelp.databinding.DialogPermissionBinding
  */
 class PermissionDialog(
     private val listener: PermissionDialogListener,
-    private var isRationale: Boolean,
+    private var isSettings: Boolean,
 ) : DialogFragment() {
 
     private var _binding: DialogPermissionBinding? = null
@@ -27,13 +27,13 @@ class PermissionDialog(
             dismiss()
         }
         binding.btnPositive.setOnClickListener {
-            listener.onProceed(isRationale)
+            listener.onProceed(isSettings)
             dismiss()
         }
         binding.ivIcon.setImageResource(R.drawable.ic_baseline_call_24)
         val s = StringBuilder(getString(R.string.message_permission_call_history))
-        if (isRationale) {
-            s.append("\n${getString(R.string.message_permission_call_history_rationale)}")
+        if (isSettings) {
+            s.append("\n\n${getString(R.string.message_permission_call_history_rationale)}")
             binding.btnPositive.text = getString(R.string.action_permission_dialog_settings)
         } else {
             binding.btnPositive.text = getString(R.string.action_permission_dialog_continue)
@@ -57,6 +57,6 @@ class PermissionDialog(
 
     interface PermissionDialogListener {
         fun onCancelled()
-        fun onProceed(isRationale: Boolean)
+        fun onProceed(isSettings: Boolean)
     }
 }

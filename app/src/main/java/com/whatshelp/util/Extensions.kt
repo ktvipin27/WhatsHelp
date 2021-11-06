@@ -1,11 +1,13 @@
 package com.whatshelp.util
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.provider.CallLog.Calls.*
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -88,3 +90,6 @@ fun bindImageType(imgView: ImageView, imgType: Int?) {
         }
     }
 }
+
+fun Context.hasPermission(permission: String): Boolean =
+    ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
