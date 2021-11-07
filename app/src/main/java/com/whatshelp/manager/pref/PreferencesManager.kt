@@ -6,4 +6,6 @@ package com.whatshelp.manager.pref
 interface PreferencesManager {
     fun setTheme(theme: Int)
     fun getTheme(): Int
+    fun getCopiedNumber(): Pair<String, Long>
+    fun setCopiedNumber(pair: Pair<String, Long>)
 }

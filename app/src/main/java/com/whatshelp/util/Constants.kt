@@ -17,6 +17,8 @@ object Constants {
         const val PREF_SHOWCASE_CHAT_NUMBER = "showcase_chat_number"
         const val PREF_SHOWCASE_CHAT_MESSAGE = "showcase_chat_message"
         const val PREF_SHOWCASE_CHAT_APP = "showcase_chat_app_toggle"
+        const val PREF_COPIED_NUMBER = "copied_number"
+        const val PREF_COPIED_TIME = "copied_number_displayed_time"
     }
 
 }

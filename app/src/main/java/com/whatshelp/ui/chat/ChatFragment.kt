@@ -227,14 +227,12 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
                 p0.dismiss()
                 wan.code?.let { code -> binding.ccp.setCountryForPhoneCode(code) }
                 binding.etNumber.setText(wan.number)
+                binding.ccp.fullNumber = wan.fullNumber
                 analyticsManager.logEvent(AnalyticsEvent.CopiedNumber.Use)
             }
             .setNegativeButton(R.string.action_ignore) { p0, _ ->
                 p0.dismiss()
                 analyticsManager.logEvent(AnalyticsEvent.CopiedNumber.Ignore)
-            }
-            .setOnDismissListener {
-                mainViewModel.resetCopiedNumber()
             }
             .show()
             .also {
