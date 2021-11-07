@@ -24,7 +24,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Run Unit tests
-        run: ./gradlew test
+        run: ./gradlew testDebugUnitTest
 
 
   android_tests:
@@ -32,9 +32,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Grant permissions
+        run: chmod +x ./gradlew
+
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew connectedAndroidTest
+          script: ./gradlew connectedDebugAndroidTest
 
