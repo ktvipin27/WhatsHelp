@@ -33,6 +33,7 @@
     <string name="label_feedback_feature_request">Feature Request</string>
     <string name="label_feedback_type_bug">Bug</string>
     <string name="hint_feedback">Enter your Feedback</string>
+    <string name="hint_feedback_email">Enter your Mail id (optional)</string>
     <string name="action_submit">Submit</string>
     <string name="message_feedback_submit_success">Feedback submitted</string>
     <string name="action_rate_us">Rate Us</string>

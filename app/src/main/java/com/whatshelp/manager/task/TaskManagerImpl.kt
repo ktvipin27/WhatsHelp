@@ -21,9 +21,9 @@ class TaskManagerImpl @Inject constructor(
     private val workManager: WorkManager,
 ) : TaskManager {
 
-    override fun submitFeedback(feedbackType: FeedbackType, feedbackText: String) {
+    override fun submitFeedback(feedbackType: FeedbackType, feedbackText: String, email: String) {
 
-        val time = Calendar.getInstance().time
+        val time = Calendar.getInstance(Locale.US).time
         val date: String = DateFormat.getDateTimeInstance().format(time)
 
         val deviceInfo = DeviceInfo(
@@ -36,7 +36,8 @@ class TaskManagerImpl @Inject constructor(
 
         val appInfo = AppInfo()
 
-        val feedback = Feedback(feedbackType, feedbackText, time.time, date, appInfo, deviceInfo)
+        val feedback =
+            Feedback(feedbackType, feedbackText, email, time.time, date, appInfo, deviceInfo)
 
         val work = OneTimeWorkRequestBuilder<FeedbackSubmissionWorker>()
             .setConstraints(

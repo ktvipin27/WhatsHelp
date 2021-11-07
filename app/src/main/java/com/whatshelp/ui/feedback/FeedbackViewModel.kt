@@ -8,6 +8,7 @@ import com.whatshelp.data.model.FeedbackType
 import com.whatshelp.manager.task.TaskManager
 import com.whatshelp.util.SingleLiveEvent
 import com.whatshelp.util.addSources
+import com.whatshelp.util.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -22,20 +23,28 @@ class FeedbackViewModel @Inject constructor(
     val email = MutableLiveData<String>()
 
     val enableSubmission: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
-        addSources(feedbackType, feedback) {
-            value = isEnteredDataValid(feedbackType.value, feedback.value)
+        addSources(feedbackType, feedback, email) {
+            value = isEnteredDataValid(feedbackType.value, feedback.value, email.value)
         }
     }
 
-    private fun isEnteredDataValid(feedbackType: FeedbackType?, feedback: String?): Boolean =
-        !feedback.isNullOrEmpty() && feedbackType != null
+    private fun isEnteredDataValid(
+        feedbackType: FeedbackType?,
+        feedback: String?,
+        email: String?,
+    ): Boolean {
+        return if
+                       (email.isNullOrEmpty()) !feedback.isNullOrEmpty() && feedbackType != null
+        else
+            email.isValidEmail() && !feedback.isNullOrEmpty() && feedbackType != null
+    }
 
     fun setFeedbackType(type: FeedbackType) {
         feedbackType.value = type
     }
 
     fun submitFeedback() {
-        taskManager.submitFeedback(feedbackType.value!!, feedback.value!!)
+        taskManager.submitFeedback(feedbackType.value!!, feedback.value!!, email.value!!)
         state.value = FeedbackState.Submitted
     }
 }

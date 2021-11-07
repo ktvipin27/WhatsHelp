@@ -6,6 +6,7 @@ package com.whatshelp.data.model
 data class Feedback(
     val type: FeedbackType,
     val feedback: String,
+    val email: String,
     val timestamp: Long,
     val time: String,
     val appInfo: AppInfo,

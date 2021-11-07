@@ -3,6 +3,7 @@ package com.whatshelp.util
 import android.content.Context
 import android.content.pm.PackageManager
 import android.provider.CallLog.Calls.*
+import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -101,3 +102,6 @@ fun Context.hasPermission(permission: String): Boolean =
 fun Context.themeColor(@AttrRes attrRes: Int): Int = TypedValue()
     .apply { theme.resolveAttribute(attrRes, this, true) }
     .data
+
+fun CharSequence?.isValidEmail() =
+    !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
