@@ -88,8 +88,8 @@
 
     <fragment
         android:id="@+id/historyContainerFragment"
-        android:name="com.whatshelp.ui.historycontainer.HistoryContainerFragment"
+        android:name="com.whatshelp.ui.calls_and_history.CallsAndHistoryFragment"
         android:label="@string/title_history_container"
-        tools:layout="@layout/fragment_history_container" />
+        tools:layout="@layout/fragment_calls_and_history" />
 
 </navigation>
