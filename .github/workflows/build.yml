@@ -1,0 +1,30 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - dummy
+
+jobs:
+
+  unit_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Decode google-services.json
+        env:
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+          FIREBASE_DEBUG_SECRET: ${{ secrets.FIREBASE_DEBUG_SECRET }}
+        run: |
+          mkdir -p app/src/release app/src/debug
+          echo $FIREBASE_SECRET > app/src/release/google-services.json
+          echo $FIREBASE_DEBUG_SECRET > app/src/debug/google-services.json
+
+      - name: Grant permissions
+        run: chmod +x ./gradlew
+
+      - name: Run Unit tests
+        run: ./gradlew test
+
