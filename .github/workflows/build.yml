@@ -40,6 +40,9 @@ jobs:
       - name: Decode google-services.json
         env:
           FIREBASE_DEBUG_SECRET: ${{ secrets.FIREBASE_DEBUG_SECRET }}
+        run: |
+          mkdir -p app/src/debug
+          echo $FIREBASE_DEBUG_SECRET > app/src/debug/google-services.json
 
       - name: Grant permissions
         run: chmod +x ./gradlew
