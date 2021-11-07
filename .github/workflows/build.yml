@@ -24,15 +24,17 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Run Unit tests
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew testDebugUnitTest  --stacktrace
 
 
   android_tests:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - uses: actions/setup-java@v2
+      - name: Setup JDK 11
+        uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -68,6 +70,13 @@ jobs:
           mkdir -p app/src/debug
           echo $FIREBASE_DEBUG_SECRET > app/src/debug/google-services.json
 
-      - name: Assemble Debug APK
+      - name: Build Debug APK
         run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: WhatsHelp debug apk
+          path: ${{ github.workspace}} /app/build/outputs/apk/debug/app-debug.apk
+
 
