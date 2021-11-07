@@ -54,4 +54,8 @@ class MainViewModel @Inject constructor(
 
         }
     }
+
+    fun resetCopiedNumber() {
+        copiedNumberLiveData.value = null
+    }
 }
