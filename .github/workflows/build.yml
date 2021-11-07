@@ -1,4 +1,4 @@
-name: Create Release
+name: Create Debug Build
 
 on:
   push:
@@ -60,6 +60,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Decode google-services.json
+        env:
+          FIREBASE_DEBUG_SECRET: ${{ secrets.FIREBASE_DEBUG_SECRET }}
+        run: |
+          mkdir -p app/src/debug
+          echo $FIREBASE_DEBUG_SECRET > app/src/debug/google-services.json
 
       - name: Assemble Debug APK
         run: ./gradlew assembleDebug
