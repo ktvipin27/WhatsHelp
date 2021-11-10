@@ -18,6 +18,13 @@
             app:popEnterAnim="@anim/slide_screen_from_left"
             app:popExitAnim="@anim/slide_screen_to_right" />
         <action
+            android:id="@+id/action_chatFragment_to_historyFragment"
+            app:destination="@id/historyFragment"
+            app:enterAnim="@anim/slide_screen_from_right"
+            app:exitAnim="@anim/slide_screen_to_left"
+            app:popEnterAnim="@anim/slide_screen_from_left"
+            app:popExitAnim="@anim/slide_screen_to_right" />
+        <action
             android:id="@+id/action_chatFragment_to_messagesFragment"
             app:destination="@id/messagesFragment"
             app:enterAnim="@anim/slide_screen_from_right"

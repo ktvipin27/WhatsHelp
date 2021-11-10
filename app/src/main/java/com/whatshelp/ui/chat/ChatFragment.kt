@@ -74,7 +74,7 @@ class ChatFragment : DBFragment<FragmentChatBinding, ChatViewModel>() {
 
         binding.tilNumber.setEndIconOnClickListener {
             analyticsManager.logEvent(AnalyticsEvent.OpenLogsAndHistory)
-            navController.navigate(R.id.action_chatFragment_to_historyContainerFragment)
+            navController.navigate(R.id.action_chatFragment_to_historyFragment)
         }
 
         binding.tilMessage.setEndIconOnClickListener {

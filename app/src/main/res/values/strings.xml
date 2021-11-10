@@ -60,7 +60,7 @@
     <string name="showcase_title_chat_number">Enter WhatsApp number here.</string>
     <string name="showcase_title_chat_message">Type your message here.</string>
     <string name="showcase_title_chat_app_change">Change chat app.</string>
-    <string name="showcase_description_chat_number"><![CDATA[Click on the icon to view call logs & history!]]></string>
+    <string name="showcase_description_chat_number">Click on the icon to view history!></string>
     <string name="showcase_description_chat_message">Click on the icon to use quick messages!</string>
     <string name="showcase_description_chat_app_change">Use \'WhatsApp\' or \'WhatsApp Business\' for sending messages!</string>
 </resources>
