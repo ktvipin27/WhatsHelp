@@ -28,43 +28,8 @@ jobs:
       - name: Run Unit tests
         run: ./gradlew test
 
-  android_tests:
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        api-level: [ 23,29 ]
-        target: [ default, google_apis ]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-
-      - name: Decode google-services.json
-        env:
-          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
-          FIREBASE_DEBUG_SECRET: ${{ secrets.FIREBASE_DEBUG_SECRET }}
-        run: |
-          mkdir -p app/src/release app/src/debug
-          echo $FIREBASE_SECRET > app/src/release/google-services.json
-          echo $FIREBASE_DEBUG_SECRET > app/src/debug/google-services.json
-
-      - name: Grant permissions
-        run: chmod +x ./gradlew
-
-      - name: Run Instrumentation Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          target: ${{ matrix.target }}
-          arch: x86_64
-          script: ./gradlew connectedCheck
-
   release:
-    needs: [ unit_tests, android_tests ]
+    needs: unit_tests
     name: Create Release
     runs-on: ubuntu-latest
     steps:
