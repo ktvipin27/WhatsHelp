@@ -123,5 +123,7 @@ fun PreviewScreen() {
 @Preview
 @Composable
 fun PreviewCopyRight() {
-    CopyRight(onClickProfile = {})
+    WhatsHelpTheme {
+        CopyRight(onClickProfile = {})
+    }
 }

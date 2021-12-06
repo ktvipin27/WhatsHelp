@@ -3,7 +3,7 @@ package com.whatshelp.ui.history
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -51,10 +51,9 @@ fun HistoryScreen(
                         .fillMaxWidth(),
                     state = listState
                 ) {
-                    itemsIndexed(history) { index, item ->
+                    items(history) { item ->
                         HistoryItem(item, onClickHistoryItem)
-                        if (index < history.lastIndex)
-                            Divider(color = GreyInfo, thickness = (0.5).dp)
+                        Divider(color = GreyInfo, thickness = (0.5).dp)
                     }
                 }
             } else {

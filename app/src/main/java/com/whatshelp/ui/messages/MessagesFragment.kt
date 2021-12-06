@@ -1,33 +1,41 @@
 package com.whatshelp.ui.messages
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.widget.LinearLayout
+import android.view.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.whatshelp.R
-import com.whatshelp.databinding.FragmentMessagesBinding
+import com.whatshelp.data.db.entity.Message
 import com.whatshelp.manager.analytics.AnalyticsEvent
-import com.whatshelp.ui.base.DBFragment
+import com.whatshelp.ui.base.BaseFragment
 import com.whatshelp.util.Constants.EXTRA_ADD_MESSAGE
 import com.whatshelp.util.Constants.EXTRA_MESSAGE
-import com.whatshelp.util.SwipeToDeleteCallback
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
-class MessagesFragment : DBFragment<FragmentMessagesBinding, MessagesViewModel>() {
+class MessagesFragment : BaseFragment<MessagesViewModel>() {
 
     override val viewModel: MessagesViewModel by viewModels()
 
-    override fun getLayoutResource(): Int = R.layout.fragment_messages
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = ComposeView(requireContext()).apply {
+        setContent {
+            MessagesScreen(onClickMessageItem = { message ->
+                onClickMessage(message)
+            }, onClickFab = {
+                analyticsManager.logEvent(AnalyticsEvent.QuickMessage.New)
+                findNavController().navigate(R.id.action_messagesFragment_to_addMessagesFragment)
+            })
+        }
+    }
 
     @Inject
     lateinit var messagesAdapter: MessagesAdapter
@@ -40,46 +48,27 @@ class MessagesFragment : DBFragment<FragmentMessagesBinding, MessagesViewModel>(
         val navController = findNavController()
         currentSavedStateHandle = navController.currentBackStackEntry?.savedStateHandle
 
-        messagesAdapter.setItemClickListener { message ->
-            analyticsManager.logEvent(AnalyticsEvent.QuickMessage.Click)
-            with(navController) {
-                previousBackStackEntry?.savedStateHandle?.set(EXTRA_MESSAGE, message.text)
-                navigateUp()
-            }
-        }
-
-        ItemTouchHelper(object : SwipeToDeleteCallback(requireContext()) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                analyticsManager.logEvent(AnalyticsEvent.QuickMessage.Delete)
-                viewModel.deleteMessage(viewHolder.bindingAdapterPosition)
-            }
-        }).attachToRecyclerView(binding.rvMessages)
-
-        binding.run {
-            rvMessages.apply {
-                addItemDecoration(DividerItemDecoration(requireContext(), LinearLayout.VERTICAL))
-                adapter = messagesAdapter
-            }
-
-            fab.setOnClickListener {
-                analyticsManager.logEvent(AnalyticsEvent.QuickMessage.New)
-                navController.navigate(R.id.action_messagesFragment_to_addMessagesFragment)
-            }
-
-            fab.postDelayed({fab.show()},300)
-        }
 
         viewModel.messages.observe(viewLifecycleOwner, { messages ->
-            messagesAdapter.submitList(messages)
             setHasOptionsMenu(messages.isNotEmpty())
         })
 
-        currentSavedStateHandle
+        /*currentSavedStateHandle
             ?.getLiveData<Boolean>(EXTRA_ADD_MESSAGE)
             ?.observe( viewLifecycleOwner ) { isNewMessageAdded ->
                 if (isNewMessageAdded)
                     binding.rvMessages.smoothScrollToPosition(messagesAdapter.itemCount)
-            }
+            }*/
+    }
+
+    private fun onClickMessage(
+        message: Message
+    ) {
+        analyticsManager.logEvent(AnalyticsEvent.QuickMessage.Click)
+        with(findNavController()) {
+            previousBackStackEntry?.savedStateHandle?.set(EXTRA_MESSAGE, message.text)
+            navigateUp()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
