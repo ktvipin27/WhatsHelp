@@ -55,7 +55,7 @@
     <string name="action_grant_permission">Grant Permission</string>
     <string name="title_grant_call_log_permission">Improve your messaging experience!</string>
     <string name="description_grant_call_log_permission">By allowing WhatsHelp to access your call logs, you can directly chat in WhatsApp with your unknown callers with out saving their number!</string>
-    <string name="info_tap_to_select">Click on any number to select.</string>
+    <string name="info_tap_to_select">Click on any item to select.</string>
     <string name="message_something_went_wrong">Something went wrong.</string>
     <string name="showcase_title_chat_number">Enter WhatsApp number here.</string>
     <string name="showcase_title_chat_message">Type your message here.</string>

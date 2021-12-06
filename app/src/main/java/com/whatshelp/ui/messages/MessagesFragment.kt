@@ -3,6 +3,7 @@ package com.whatshelp.ui.messages
 import android.os.Bundle
 import android.view.*
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
@@ -14,8 +15,8 @@ import com.whatshelp.ui.base.BaseFragment
 import com.whatshelp.util.Constants.EXTRA_ADD_MESSAGE
 import com.whatshelp.util.Constants.EXTRA_MESSAGE
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class MessagesFragment : BaseFragment<MessagesViewModel>() {
@@ -28,17 +29,9 @@ class MessagesFragment : BaseFragment<MessagesViewModel>() {
         savedInstanceState: Bundle?
     ): View = ComposeView(requireContext()).apply {
         setContent {
-            MessagesScreen(onClickMessageItem = { message ->
-                onClickMessage(message)
-            }, onClickFab = {
-                analyticsManager.logEvent(AnalyticsEvent.QuickMessage.New)
-                findNavController().navigate(R.id.action_messagesFragment_to_addMessagesFragment)
-            })
+            MessagesScreen(onClickMessage = ::onClickMessage, onClickFab = ::onClickFab)
         }
     }
-
-    @Inject
-    lateinit var messagesAdapter: MessagesAdapter
 
     private var currentSavedStateHandle: SavedStateHandle? = null
 
@@ -52,13 +45,6 @@ class MessagesFragment : BaseFragment<MessagesViewModel>() {
         viewModel.messages.observe(viewLifecycleOwner, { messages ->
             setHasOptionsMenu(messages.isNotEmpty())
         })
-
-        /*currentSavedStateHandle
-            ?.getLiveData<Boolean>(EXTRA_ADD_MESSAGE)
-            ?.observe( viewLifecycleOwner ) { isNewMessageAdded ->
-                if (isNewMessageAdded)
-                    binding.rvMessages.smoothScrollToPosition(messagesAdapter.itemCount)
-            }*/
     }
 
     private fun onClickMessage(
@@ -69,6 +55,10 @@ class MessagesFragment : BaseFragment<MessagesViewModel>() {
             previousBackStackEntry?.savedStateHandle?.set(EXTRA_MESSAGE, message.text)
             navigateUp()
         }
+    }
+
+    private fun onClickFab() {
+        analyticsManager.logEvent(AnalyticsEvent.QuickMessage.New)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
