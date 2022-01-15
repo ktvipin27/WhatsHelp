@@ -10,8 +10,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,10 +31,10 @@ import com.whatshelp.ui.theme.WhatsHelpTheme
  */
 @Composable
 fun FeedbackScreen(viewModel: FeedbackViewModel = viewModel()) {
-    val feedbackType by viewModel.feedbackType.observeAsState()
-    val feedback by viewModel.feedback.observeAsState("")
-    val email by viewModel.email.observeAsState("")
-    val enableSubmission by viewModel.enableSubmission.observeAsState(false)
+    val feedbackType by viewModel.feedbackType.collectAsState()
+    val feedback by viewModel.feedback.collectAsState("")
+    val email by viewModel.email.collectAsState("")
+    val enableSubmission by viewModel.enableSubmission.collectAsState(false)
 
     val radioOptions = FeedbackType.values().toList()
     val scrollState = rememberScrollState()

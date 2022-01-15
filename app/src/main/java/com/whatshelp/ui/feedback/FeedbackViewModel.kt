@@ -1,17 +1,17 @@
 package com.whatshelp.ui.feedback
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.whatshelp.data.model.FeedbackType
 import com.whatshelp.manager.analytics.AnalyticsEvent
 import com.whatshelp.manager.analytics.AnalyticsManager
 import com.whatshelp.manager.task.TaskManager
 import com.whatshelp.util.SingleLiveEvent
-import com.whatshelp.util.addSources
 import com.whatshelp.util.isValidEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,21 +21,22 @@ class FeedbackViewModel @Inject constructor(
 ) : ViewModel() {
     val state = SingleLiveEvent<FeedbackState>()
 
-    private val _feedbackType = MutableLiveData<FeedbackType>()
-    val feedbackType: LiveData<FeedbackType>
-        get() = _feedbackType
-    private val _feedback = MutableLiveData<String>()
-    val feedback: LiveData<String>
-        get() = _feedback
-    private val _email = MutableLiveData<String>()
-    val email: LiveData<String>
-        get() = _email
+    private val _feedbackType = MutableStateFlow<FeedbackType?>(null)
+    val feedbackType: StateFlow<FeedbackType?>
+        get() = _feedbackType.asStateFlow()
 
-    val enableSubmission: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
-        addSources(feedbackType, feedback, email) {
-            value = isEnteredDataValid(feedbackType.value, feedback.value, email.value)
+    private val _feedback = MutableStateFlow("")
+    val feedback: StateFlow<String>
+        get() = _feedback.asStateFlow()
+
+    private val _email = MutableStateFlow("")
+    val email: StateFlow<String>
+        get() = _email.asStateFlow()
+
+    val enableSubmission =
+        combine(feedbackType, feedback, email) { feedbackType, feedback, email ->
+            isEnteredDataValid(feedbackType, feedback, email)
         }
-    }
 
     private fun isEnteredDataValid(
         feedbackType: FeedbackType?,
@@ -61,7 +62,7 @@ class FeedbackViewModel @Inject constructor(
     }
 
     fun submitFeedback() {
-        taskManager.submitFeedback(feedbackType.value!!, feedback.value!!, email.value!!)
+        taskManager.submitFeedback(feedbackType.value!!, feedback.value, email.value)
         state.value = FeedbackState.Submitted
     }
 }
