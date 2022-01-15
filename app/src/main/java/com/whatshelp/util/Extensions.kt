@@ -2,6 +2,7 @@ package com.whatshelp.util
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Resources.getSystem
 import android.provider.CallLog.Calls.*
 import android.util.Patterns
 import android.util.TypedValue
@@ -105,3 +106,5 @@ fun Context.themeColor(@AttrRes attrRes: Int): Int = TypedValue()
 
 fun CharSequence?.isValidEmail() =
     !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+val Int.toDp: Int get() = (this * getSystem().displayMetrics.density).toInt()

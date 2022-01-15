@@ -41,66 +41,80 @@ fun FeedbackScreen(viewModel: FeedbackViewModel = viewModel()) {
     WhatsHelpTheme {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-                .padding(24.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = stringResource(R.string.feedback_disclaimer),
-                color = MaterialTheme.colors.primary,
-                fontSize = 14.sp
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            Label(text = stringResource(R.string.label_feedback_type))
-            Spacer(modifier = Modifier.height(10.dp))
-            GroupedRadioButton(
-                radioOptions,
-                selectedOption = feedbackType
-            ) { viewModel.setFeedbackType(it) }
-            Spacer(modifier = Modifier.height(10.dp))
-            Label(text = stringResource(R.string.hint_feedback))
-            Spacer(modifier = Modifier.height(10.dp))
-            OutlinedTextField(
-                value = feedback,
-                onValueChange = viewModel::setFeedback,
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .defaultMinSize(minHeight = 120.dp)
-                    .padding(5.dp),
-                maxLines = 5,
-                trailingIcon = {
-                    if (feedback.isNotEmpty())
-                        Icon(
-                            Icons.Filled.Clear,
-                            contentDescription = "Clear Text",
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .clickable {
-                                    viewModel.setFeedback("")
-                                }
-                        )
-                }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Label(text = stringResource(R.string.hint_feedback_email))
-            Spacer(modifier = Modifier.height(10.dp))
-            OutlinedTextField(
-                value = email,
-                onValueChange = viewModel::setEmail,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp),
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-            )
-            Spacer(modifier = Modifier.height(48.dp))
-            Button(
-                onClick = { viewModel.submitFeedback() },
-                enabled = enableSubmission,
-                modifier = Modifier
-                    .fillMaxWidth()
+                    .weight(1f)
+                    .verticalScroll(scrollState)
+                    .padding(24.dp)
             ) {
-                Text(text = stringResource(R.string.action_submit).uppercase())
+                Text(
+                    text = stringResource(R.string.feedback_disclaimer),
+                    color = MaterialTheme.colors.primary,
+                    fontSize = 14.sp
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                Label(text = stringResource(R.string.label_feedback_type))
+                Spacer(modifier = Modifier.height(10.dp))
+                GroupedRadioButton(
+                    radioOptions,
+                    selectedOption = feedbackType
+                ) { viewModel.setFeedbackType(it) }
+                Spacer(modifier = Modifier.height(10.dp))
+                Label(text = stringResource(R.string.hint_feedback))
+                Spacer(modifier = Modifier.height(10.dp))
+                OutlinedTextField(
+                    value = feedback,
+                    onValueChange = viewModel::setFeedback,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .defaultMinSize(minHeight = 120.dp)
+                        .padding(5.dp),
+                    maxLines = 5,
+                    trailingIcon = {
+                        if (feedback.isNotEmpty())
+                            Icon(
+                                Icons.Filled.Clear,
+                                contentDescription = "Clear Text",
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .clickable {
+                                        viewModel.setFeedback("")
+                                    }
+                            )
+                    }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Label(text = stringResource(R.string.hint_feedback_email))
+                Spacer(modifier = Modifier.height(10.dp))
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = viewModel::setEmail,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp),
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                )
+
+            }
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 16.dp)
+            ) {
+                Button(
+                    onClick = { viewModel.submitFeedback() },
+                    enabled = enableSubmission,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                ) {
+                    Text(text = stringResource(R.string.action_submit).uppercase())
+                }
             }
         }
     }
@@ -152,5 +166,5 @@ fun GroupedRadioButton(
 @Preview
 @Composable
 fun PreviewFeedbackScreen() {
-
+    FeedbackScreen()
 }

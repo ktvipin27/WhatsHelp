@@ -1,51 +1,56 @@
 package com.whatshelp.ui.chat
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.whatshelp.data.model.App
 import com.whatshelp.data.model.WhatsApp
+import com.whatshelp.data.model.WhatsAppBusiness
 import com.whatshelp.data.model.WhatsAppNumber
 import com.whatshelp.data.repo.WhatsHelpRepo
+import com.whatshelp.util.NumberUtil
 import com.whatshelp.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo) : ViewModel() {
+class ChatViewModel @Inject constructor(
+    private val numberUtil: NumberUtil, private val whatsHelpRepo: WhatsHelpRepo
+) : ViewModel() {
 
     val state = SingleLiveEvent<ChatState>()
-    val message = MutableLiveData("")
-    private var selectedApp : App = WhatsApp
+    val mobile = MutableStateFlow("")
+    val message = MutableStateFlow("")
+    val countryCode = MutableStateFlow("91")
+    val countryNameCode = MutableStateFlow("IN")
+    val supportedApps = arrayListOf(WhatsApp, WhatsAppBusiness)
+    val selectedAppIndex = MutableStateFlow(0)
 
     fun onClickAction(
-        action: ChatAction,
-        isValidNumber: Boolean,
-        countryCode: String,
-        fullNumber: String,
-        formattedNumber: String,
+        action: ChatAction
     ) {
-        val msg = message.value.toString()
-        val number = fullNumber.substring(countryCode.length, fullNumber.length)
+        val fullNumber = countryCode.value + mobile.value
+        val selectedApp: App = supportedApps[selectedAppIndex.value]
 
         when {
-            isValidNumber -> {
-                saveHistory(countryCode, number, formattedNumber)
+            numberUtil.isValidFullNumber(mobile.value, countryNameCode.value) -> {
+                numberUtil.getFormattedNumber(mobile.value, countryNameCode.value)
+                    ?.let { saveHistory(countryCode.value, mobile.value, it) }
 
-                if (action==ChatAction.OPEN_CHAT)
-                state.value =
-                    ChatState.OpenChat(fullNumber, msg, selectedApp)
+                if (action == ChatAction.OPEN_CHAT)
+                    state.value =
+                        ChatState.OpenChat(fullNumber, message.value, selectedApp)
                 else
-                state.value =
-                    ChatState.ShareLink(fullNumber, msg)
+                    state.value =
+                        ChatState.ShareLink(fullNumber, message.value)
             }
-            number.isEmpty() -> {
-                state.value = if (msg.isNotEmpty()) {
+            mobile.value.isEmpty() -> {
+                state.value = if (message.value.isNotEmpty()) {
                     if (action == ChatAction.OPEN_CHAT)
-                        ChatState.OpenChat("", msg, selectedApp)
+                        ChatState.OpenChat("", message.value, selectedApp)
                     else
-                        ChatState.ShareLink("", msg)
+                        ChatState.ShareLink("", message.value)
                 } else
                     ChatState.InvalidData
             }
@@ -65,8 +70,13 @@ class ChatViewModel @Inject constructor(private val whatsHelpRepo: WhatsHelpRepo
         }
     }
 
-    fun setSelectedApp(selectedApp: App) {
-        this.selectedApp = selectedApp
+    fun setSelectedAppIndex(index: Int) {
+        selectedAppIndex.value = index
+    }
+
+    fun setFullNumber(number: String, code: String) {
+        //countryCode.value = code
+        mobile.value = number
     }
 
 }

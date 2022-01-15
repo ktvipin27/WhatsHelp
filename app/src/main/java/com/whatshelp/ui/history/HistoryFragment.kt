@@ -34,7 +34,7 @@ class HistoryFragment : BaseFragment<HistoryViewModel>() {
             analyticsManager.logEvent(AnalyticsEvent.History.Click)
             navController.previousBackStackEntry?.savedStateHandle?.set(
                 EXTRA_NUMBER,
-                history.whatsAppNumber.fullNumber
+                history.whatsAppNumber
             )
             navController.navigateUp()
         }

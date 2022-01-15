@@ -41,4 +41,18 @@ class NumberUtil @Inject constructor(@ApplicationContext val context: Context) {
                 NumberValidity.InvalidNumber
         }
     }
+
+    fun isValidFullNumber(number: String, countryNameCode: String): Boolean {
+        return try {
+            val phoneNumber = phoneUtil.parse(number, countryNameCode)
+            phoneUtil.isValidNumber(phoneNumber)
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun getFormattedNumber(number: String, countryNameCode: String): String? {
+        val phoneNumber = phoneUtil.parse(number, countryNameCode)
+        return phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164)
+    }
 }
